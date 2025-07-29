@@ -78,25 +78,9 @@ export default function Home() {
     }
   ]
 
-  const clearLocalStorage = () => {
-    localStorage.removeItem('products')
-    alert('LocalStorage temizlendi! Şimdi kategorilerdeki ürünler görünecek.')
-    window.location.reload()
-  }
-
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50">
       <Header onCartClick={() => setIsCartOpen(true)} cartItemCount={cartItemCount} />
-      
-      {/* Debug butonu - sadece geliştirme için */}
-      <div className="fixed top-20 right-4 z-50">
-        <button
-          onClick={clearLocalStorage}
-          className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg text-sm font-medium shadow-lg"
-        >
-          🧹 LocalStorage Temizle
-        </button>
-      </div>
       
       <Hero />
       
@@ -172,24 +156,6 @@ export default function Home() {
               <h3 className="text-xl font-semibold text-gray-900 mb-2">Kolay İade</h3>
               <p className="text-gray-600">14 gün içinde ücretsiz iade hakkı</p>
             </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Test E-posta Butonu */}
-      <section className="py-8 bg-gray-100">
-        <div className="max-w-4xl mx-auto px-4">
-          <div className="text-center">
-            <h2 className="text-2xl font-bold text-gray-900 mb-4">E-posta Sistemi Test</h2>
-            <p className="text-gray-600 mb-6">
-              E-posta sistemini test etmek için aşağıdaki butona tıklayın
-            </p>
-            <Link 
-              href="/test-email"
-              className="inline-block bg-blue-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-blue-700 transition-colors"
-            >
-              E-posta Test Sayfası
-            </Link>
           </div>
         </div>
       </section>
