@@ -1,0 +1,26 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "package.json",
+      "use": "@vercel/next"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/admin/(.*)",
+      "dest": "/admin/$1"
+    },
+    {
+      "src": "/tech/(.*)",
+      "dest": "/tech/$1"
+    },
+    {
+      "src": "/ev/(.*)",
+      "dest": "/ev/$1"
+    }
+  ],
+  "env": {
+    "NEXT_PUBLIC_SITE_URL": "https://neomedya-ecommerce.vercel.app"
+  }
+} 

@@ -1,0 +1,289 @@
+'use client'
+
+import React, { useState } from 'react'
+import Link from 'next/link'
+import { ArrowLeft, Star, Heart, Filter, Grid, List, Search } from 'lucide-react'
+
+const NikeGiyim = () => {
+  const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid')
+  const [cartCount, setCartCount] = useState(0)
+
+  const nikeProducts = [
+    {
+      id: 1,
+      name: "Nike Air Max 270",
+      price: 1299,
+      originalPrice: 1599,
+      image: "👟",
+      category: "Spor Ayakkabı",
+      rating: 4.8,
+      reviews: 156,
+      discount: 19,
+      inStock: true,
+      sizes: ["40", "41", "42", "43", "44"]
+    },
+    {
+      id: 2,
+      name: "Nike Air Force 1",
+      price: 899,
+      originalPrice: 1099,
+      image: "👟",
+      category: "Spor Ayakkabı",
+      rating: 4.7,
+      reviews: 234,
+      discount: 18,
+      inStock: true,
+      sizes: ["40", "41", "42", "43", "44"]
+    },
+    {
+      id: 3,
+      name: "Nike Dri-FIT T-Shirt",
+      price: 299,
+      originalPrice: 399,
+      image: "👕",
+      category: "Spor Giyim",
+      rating: 4.6,
+      reviews: 89,
+      discount: 25,
+      inStock: true,
+      sizes: ["S", "M", "L", "XL"]
+    },
+    {
+      id: 4,
+      name: "Nike Tech Fleece",
+      price: 599,
+      originalPrice: 799,
+      image: "🧥",
+      category: "Spor Giyim",
+      rating: 4.9,
+      reviews: 123,
+      discount: 25,
+      inStock: true,
+      sizes: ["S", "M", "L", "XL"]
+    },
+    {
+      id: 5,
+      name: "Nike ZoomX",
+      price: 1899,
+      originalPrice: 1899,
+      image: "👟",
+      category: "Spor Ayakkabı",
+      rating: 4.9,
+      reviews: 67,
+      discount: 0,
+      inStock: true,
+      sizes: ["40", "41", "42", "43", "44"]
+    },
+    {
+      id: 6,
+      name: "Nike Pro Shorts",
+      price: 199,
+      originalPrice: 299,
+      image: "🩳",
+      category: "Spor Giyim",
+      rating: 4.5,
+      reviews: 78,
+      discount: 33,
+      inStock: true,
+      sizes: ["S", "M", "L", "XL"]
+    }
+  ]
+
+  const addToCart = (product: any) => {
+    setCartCount(prev => prev + 1)
+    alert(`${product.name} sepete eklendi!`)
+  }
+
+  const addToWishlist = (product: any) => {
+    alert(`${product.name} favorilere eklendi!`)
+  }
+
+  return (
+    <main className="min-h-screen bg-gray-50">
+      {/* Site Selection Banner */}
+      <div className="bg-gradient-to-r from-purple-600 to-pink-600 text-white py-4">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex flex-col md:flex-row justify-between items-center">
+            <div>
+              <h2 className="text-xl font-bold">NEOMEDYA E-TİCARET PLATFORMLARI</h2>
+              <p className="text-sm opacity-90">Farklı temalar ve özellikler</p>
+            </div>
+            <div className="flex gap-4 mt-4 md:mt-0">
+              <Link href="/ev" className="bg-transparent border-2 border-white text-white px-4 py-2 rounded-lg font-semibold hover:bg-white hover:text-orange-600 transition-colors">
+                NEOMEDYA EV
+              </Link>
+              <Link href="/tech" className="bg-transparent border-2 border-white text-white px-4 py-2 rounded-lg font-semibold hover:bg-white hover:text-blue-600 transition-colors">
+                NEOMEDYA TECH
+              </Link>
+              <Link href="/giyim" className="bg-white text-purple-600 px-4 py-2 rounded-lg font-semibold hover:bg-gray-100 transition-colors">
+                NEOMEDYA GİYİM
+              </Link>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Header */}
+      <header className="bg-white shadow-sm sticky top-0 z-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between items-center h-16">
+            <div className="flex items-center gap-4">
+              <Link href="/giyim" className="text-purple-600 hover:text-purple-700">
+                <ArrowLeft className="h-5 w-5" />
+              </Link>
+              <h1 className="text-2xl font-bold text-gray-900">Nike</h1>
+            </div>
+            <div className="flex items-center space-x-4">
+              <Link href="/giyim/sepet" className="p-2 text-gray-700 hover:text-purple-600 transition-colors">
+                🛒 <span className="bg-purple-600 text-white text-xs rounded-full px-1">{cartCount}</span>
+              </Link>
+              <Link href="/giyim/profil" className="p-2 text-gray-700 hover:text-purple-600 transition-colors">👤</Link>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        {/* Hero Section */}
+        <section className="bg-gradient-to-r from-orange-600 to-red-600 text-white rounded-lg p-8 mb-8">
+          <div className="text-center">
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">Nike Koleksiyonu</h2>
+            <p className="text-lg opacity-90 mb-6">
+              "Just Do It" - Spor ve performans için tasarlanmış en yeni Nike ürünleri
+            </p>
+            <div className="flex flex-wrap justify-center gap-4">
+              <span className="bg-white/20 px-4 py-2 rounded-full text-sm">👟 Spor Ayakkabı</span>
+              <span className="bg-white/20 px-4 py-2 rounded-full text-sm">👕 Spor Giyim</span>
+              <span className="bg-white/20 px-4 py-2 rounded-full text-sm">🧥 Tech Fleece</span>
+              <span className="bg-white/20 px-4 py-2 rounded-full text-sm">🩳 Shorts</span>
+            </div>
+          </div>
+        </section>
+
+        {/* Filters and View Options */}
+        <div className="flex flex-col md:flex-row justify-between items-center mb-8">
+          <div className="flex items-center gap-4 mb-4 md:mb-0">
+            <button className="flex items-center gap-2 bg-white px-4 py-2 rounded-lg shadow-sm hover:shadow-md transition-shadow">
+              <Filter className="h-4 w-4" />
+              <span>Filtrele</span>
+            </button>
+            <span className="text-gray-600">{nikeProducts.length} Nike ürünü bulundu</span>
+          </div>
+          
+          <div className="flex items-center gap-2">
+            <button
+              onClick={() => setViewMode('grid')}
+              className={`p-2 rounded ${viewMode === 'grid' ? 'bg-purple-600 text-white' : 'bg-gray-200 text-gray-600'}`}
+            >
+              <Grid className="h-4 w-4" />
+            </button>
+            <button
+              onClick={() => setViewMode('list')}
+              className={`p-2 rounded ${viewMode === 'list' ? 'bg-purple-600 text-white' : 'bg-gray-200 text-gray-600'}`}
+            >
+              <List className="h-4 w-4" />
+            </button>
+          </div>
+        </div>
+
+        {/* Products Grid */}
+        <div className={`grid gap-6 ${
+          viewMode === 'grid' 
+            ? 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4' 
+            : 'grid-cols-1'
+        }`}>
+          {nikeProducts.map((product) => (
+            <div key={product.id} className={`bg-white rounded-lg shadow-sm hover:shadow-lg transition-shadow ${
+              viewMode === 'list' ? 'flex gap-4 p-4' : 'p-4'
+            }`}>
+              <div className={`relative ${viewMode === 'list' ? 'w-32 h-32 flex-shrink-0' : ''}`}>
+                {product.discount > 0 && (
+                  <div className="absolute top-2 left-2 bg-red-500 text-white text-xs px-2 py-1 rounded-full">
+                    %{product.discount} İndirim
+                  </div>
+                )}
+                {!product.inStock && (
+                  <div className="absolute top-2 right-2 bg-gray-500 text-white text-xs px-2 py-1 rounded-full">
+                    Stokta Yok
+                  </div>
+                )}
+                <div className={`bg-gradient-to-br from-orange-100 to-red-100 rounded-lg flex items-center justify-center ${
+                  viewMode === 'list' ? 'w-32 h-32' : 'aspect-square'
+                }`}>
+                  <span className="text-4xl">{product.image}</span>
+                </div>
+              </div>
+              
+              <div className={`flex-1 ${viewMode === 'list' ? 'flex flex-col justify-between' : 'mt-4'}`}>
+                <div>
+                  <h3 className={`font-semibold text-gray-900 ${viewMode === 'list' ? 'text-lg' : 'text-sm'}`}>
+                    {product.name}
+                  </h3>
+                  <p className="text-xs text-gray-500 mt-1">{product.category}</p>
+                  
+                  <div className="flex items-center gap-1 mt-2">
+                    <Star className="h-3 w-3 text-yellow-400 fill-current" />
+                    <span className="text-xs text-gray-600">{product.rating}</span>
+                    <span className="text-xs text-gray-400">({product.reviews})</span>
+                  </div>
+                  
+                  <div className="flex items-center gap-2 mt-2">
+                    {product.discount > 0 ? (
+                      <>
+                        <span className={`font-bold text-red-600 ${viewMode === 'list' ? 'text-lg' : 'text-sm'}`}>
+                          {product.price.toLocaleString()} TL
+                        </span>
+                        <span className="text-xs text-gray-400 line-through">
+                          {product.originalPrice.toLocaleString()} TL
+                        </span>
+                      </>
+                    ) : (
+                      <span className={`font-bold text-gray-900 ${viewMode === 'list' ? 'text-lg' : 'text-sm'}`}>
+                        {product.price.toLocaleString()} TL
+                      </span>
+                    )}
+                  </div>
+                  
+                  {viewMode === 'list' && (
+                    <div className="mt-2">
+                      <p className="text-xs text-gray-600">Bedenler: {product.sizes.join(', ')}</p>
+                    </div>
+                  )}
+                </div>
+                
+                <div className={`flex gap-2 ${viewMode === 'list' ? 'mt-4' : 'mt-3'}`}>
+                  <button
+                    onClick={() => addToCart(product)}
+                    disabled={!product.inStock}
+                    className={`flex-1 py-2 px-3 rounded-lg text-xs font-medium transition-colors ${
+                      product.inStock
+                        ? 'bg-purple-600 text-white hover:bg-purple-700'
+                        : 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                    }`}
+                  >
+                    {product.inStock ? 'Sepete Ekle' : 'Stokta Yok'}
+                  </button>
+                  <button
+                    onClick={() => addToWishlist(product)}
+                    className="p-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+                  >
+                    <Heart className="h-3 w-3 text-gray-600" />
+                  </button>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Load More Button */}
+        <div className="text-center mt-12">
+          <button className="bg-purple-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-purple-700 transition-colors">
+            Daha Fazla Nike Ürünü
+          </button>
+        </div>
+      </div>
+    </main>
+  )
+}
+
+export default NikeGiyim 
