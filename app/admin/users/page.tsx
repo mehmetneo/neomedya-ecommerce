@@ -19,54 +19,63 @@ export default function AdminUsersPage() {
   const [searchTerm, setSearchTerm] = useState('')
   const [filterStatus, setFilterStatus] = useState<'all' | 'active' | 'inactive'>('all')
 
-  // Örnek kullanıcı verileri
-  useEffect(() => {
-    const mockUsers: User[] = [
-      {
-        id: '1',
-        name: 'Ahmet Yılmaz',
-        email: 'ahmet@example.com',
-        phone: '+90 555 123 4567',
-        joinDate: '2024-01-15',
-        orderCount: 3,
-        totalSpent: 1250.50,
-        status: 'active'
-      },
-      {
-        id: '2',
-        name: 'Fatma Demir',
-        email: 'fatma@example.com',
-        phone: '+90 555 987 6543',
-        joinDate: '2024-02-20',
-        orderCount: 1,
-        totalSpent: 450.00,
-        status: 'active'
-      },
-      {
-        id: '3',
-        name: 'Mehmet Kaya',
-        email: 'mehmet@example.com',
-        phone: '+90 555 456 7890',
-        joinDate: '2024-03-10',
-        orderCount: 2,
-        totalSpent: 890.75,
-        status: 'active'
-      },
-      {
-        id: '4',
-        name: 'Ayşe Özkan',
-        email: 'ayse@example.com',
-        phone: '+90 555 321 0987',
-        joinDate: '2024-01-05',
-        orderCount: 0,
-        totalSpent: 0,
-        status: 'inactive'
+  const loadUsers = async () => {
+    try {
+      setLoading(true)
+      const response = await fetch('/api/admin/users')
+      const data = await response.json()
+      
+      if (data.success) {
+        setUsers(data.users)
+        console.log('✅ Kullanıcılar yüklendi:', data.users.length)
+      } else {
+        console.error('❌ Kullanıcılar yüklenemedi:', data.error)
       }
-    ]
-    
-    setUsers(mockUsers)
-    setLoading(false)
+    } catch (error) {
+      console.error('❌ Kullanıcı yükleme hatası:', error)
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  useEffect(() => {
+    loadUsers()
   }, [])
+
+  const toggleUserStatus = async (userId: string) => {
+    try {
+      const user = users.find(u => u.id === userId)
+      if (!user) return
+
+      const newStatus = user.status === 'active' ? 'inactive' : 'active'
+      
+      const response = await fetch('/api/admin/users', {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          userId,
+          status: newStatus
+        })
+      })
+
+      const data = await response.json()
+      
+      if (data.success) {
+        setUsers(users.map(user => 
+          user.id === userId 
+            ? { ...user, status: newStatus }
+            : user
+        ))
+        console.log('✅ Kullanıcı durumu güncellendi:', userId, newStatus)
+      } else {
+        console.error('❌ Kullanıcı durumu güncellenemedi:', data.error)
+      }
+    } catch (error) {
+      console.error('❌ Kullanıcı durumu güncelleme hatası:', error)
+    }
+  }
 
   const filteredUsers = users.filter(user => {
     const matchesSearch = user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -74,14 +83,6 @@ export default function AdminUsersPage() {
     const matchesStatus = filterStatus === 'all' || user.status === filterStatus
     return matchesSearch && matchesStatus
   })
-
-  const toggleUserStatus = (userId: string) => {
-    setUsers(users.map(user => 
-      user.id === userId 
-        ? { ...user, status: user.status === 'active' ? 'inactive' : 'active' }
-        : user
-    ))
-  }
 
   if (loading) {
     return (
@@ -99,8 +100,11 @@ export default function AdminUsersPage() {
           <h2 className="text-2xl font-bold text-gray-900">Kullanıcı Yönetimi</h2>
           <p className="text-gray-600">Sistemdeki tüm kullanıcıları görüntüleyin ve yönetin</p>
         </div>
-        <button className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors">
-          + Yeni Kullanıcı
+        <button 
+          onClick={loadUsers}
+          className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors"
+        >
+          🔄 Yenile
         </button>
       </div>
 

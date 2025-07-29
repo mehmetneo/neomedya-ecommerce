@@ -18,64 +18,64 @@ interface User {
 // Tüm ürünler
 const allProducts = [
   // Erkek ürünleri
-  { id: '1', name: 'Premium Pamuklu T-Shirt', category: 'Erkek', price: 89.99, image: 'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=500&h=600&fit=crop' },
-  { id: '2', name: 'Slim Fit Kot Pantolon', category: 'Erkek', price: 199.99, image: 'https://images.unsplash.com/photo-1542272604-787c3835535d?w=500&h=600&fit=crop' },
-  { id: '3', name: 'Deri Ceket', category: 'Erkek', price: 899.99, image: 'https://images.unsplash.com/photo-1551028719-00167b16eac5?w=500&h=600&fit=crop' },
-  { id: '4', name: 'Spor Ayakkabı', category: 'Erkek', price: 299.99, image: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=500&h=600&fit=crop' },
-  { id: '5', name: 'Gömlek', category: 'Erkek', price: 149.99, image: 'https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=500&h=600&fit=crop' },
-  { id: '6', name: 'Spor Şort', category: 'Erkek', price: 79.99, image: 'https://images.unsplash.com/photo-1551698618-1dfe5d97d256?w=500&h=600&fit=crop' },
-  { id: '7', name: 'Kot Ceket', category: 'Erkek', price: 399.99, image: 'https://images.unsplash.com/photo-1551028719-00167b16eac5?w=500&h=600&fit=crop' },
-  { id: '8', name: 'Formal Pantolon', category: 'Erkek', price: 249.99, image: 'https://images.unsplash.com/photo-1542272604-787c3835535d?w=500&h=600&fit=crop' },
-  { id: '9', name: 'Polo T-Shirt', category: 'Erkek', price: 119.99, image: 'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=500&h=600&fit=crop' },
-  { id: '10', name: 'Spor Mont', category: 'Erkek', price: 599.99, image: 'https://images.unsplash.com/photo-1551028719-00167b16eac5?w=500&h=600&fit=crop' },
+  { id: '1', name: 'Premium Pamuklu T-Shirt', category: 'Erkek', price: 89.99, image: '/images/placeholder.svg' },
+  { id: '2', name: 'Slim Fit Kot Pantolon', category: 'Erkek', price: 199.99, image: '/images/placeholder.svg' },
+  { id: '3', name: 'Deri Ceket', category: 'Erkek', price: 899.99, image: '/images/placeholder.svg' },
+  { id: '4', name: 'Spor Ayakkabı', category: 'Erkek', price: 299.99, image: '/images/placeholder.svg' },
+  { id: '5', name: 'Gömlek', category: 'Erkek', price: 149.99, image: '/images/placeholder.svg' },
+  { id: '6', name: 'Spor Şort', category: 'Erkek', price: 79.99, image: '/images/placeholder.svg' },
+  { id: '7', name: 'Kot Ceket', category: 'Erkek', price: 399.99, image: '/images/placeholder.svg' },
+  { id: '8', name: 'Formal Pantolon', category: 'Erkek', price: 249.99, image: '/images/placeholder.svg' },
+  { id: '9', name: 'Polo T-Shirt', category: 'Erkek', price: 119.99, image: '/images/placeholder.svg' },
+  { id: '10', name: 'Spor Mont', category: 'Erkek', price: 599.99, image: '/images/placeholder.svg' },
   
   // Kadın ürünleri
-  { id: '11', name: 'Kadın Elbise', category: 'Kadın', price: 299.99, image: 'https://images.unsplash.com/photo-1445205170230-053b83016050?w=500&h=600&fit=crop' },
-  { id: '12', name: 'Kadın Bluz', category: 'Kadın', price: 129.99, image: 'https://images.unsplash.com/photo-1434389677669-e08b4cac3105?w=500&h=600&fit=crop' },
-  { id: '13', name: 'Kadın Pantolon', category: 'Kadın', price: 179.99, image: 'https://images.unsplash.com/photo-1544966503-7cc5ac882d5f?w=500&h=600&fit=crop' },
-  { id: '14', name: 'Kadın Ceket', category: 'Kadın', price: 399.99, image: 'https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?w=500&h=600&fit=crop' },
-  { id: '15', name: 'Kadın T-Shirt', category: 'Kadın', price: 89.99, image: 'https://images.unsplash.com/photo-1434389677669-e08b4cac3105?w=500&h=600&fit=crop' },
-  { id: '16', name: 'Kadın Etek', category: 'Kadın', price: 159.99, image: 'https://images.unsplash.com/photo-1445205170230-053b83016050?w=500&h=600&fit=crop' },
-  { id: '17', name: 'Kadın Mont', category: 'Kadın', price: 499.99, image: 'https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?w=500&h=600&fit=crop' },
-  { id: '18', name: 'Kadın Tunik', category: 'Kadın', price: 199.99, image: 'https://images.unsplash.com/photo-1434389677669-e08b4cac3105?w=500&h=600&fit=crop' },
-  { id: '19', name: 'Kadın Şort', category: 'Kadın', price: 99.99, image: 'https://images.unsplash.com/photo-1544966503-7cc5ac882d5f?w=500&h=600&fit=crop' },
-  { id: '20', name: 'Kadın Gömlek', category: 'Kadın', price: 169.99, image: 'https://images.unsplash.com/photo-1434389677669-e08b4cac3105?w=500&h=600&fit=crop' },
+  { id: '11', name: 'Kadın Elbise', category: 'Kadın', price: 299.99, image: '/images/placeholder.svg' },
+  { id: '12', name: 'Kadın Bluz', category: 'Kadın', price: 129.99, image: '/images/placeholder.svg' },
+  { id: '13', name: 'Kadın Pantolon', category: 'Kadın', price: 179.99, image: '/images/placeholder.svg' },
+  { id: '14', name: 'Kadın Ceket', category: 'Kadın', price: 399.99, image: '/images/placeholder.svg' },
+  { id: '15', name: 'Kadın T-Shirt', category: 'Kadın', price: 89.99, image: '/images/placeholder.svg' },
+  { id: '16', name: 'Kadın Etek', category: 'Kadın', price: 159.99, image: '/images/placeholder.svg' },
+  { id: '17', name: 'Kadın Mont', category: 'Kadın', price: 499.99, image: '/images/placeholder.svg' },
+  { id: '18', name: 'Kadın Tunik', category: 'Kadın', price: 199.99, image: '/images/placeholder.svg' },
+  { id: '19', name: 'Kadın Şort', category: 'Kadın', price: 99.99, image: '/images/placeholder.svg' },
+  { id: '20', name: 'Kadın Gömlek', category: 'Kadın', price: 169.99, image: '/images/placeholder.svg' },
   
   // Çocuk ürünleri
-  { id: '21', name: 'Çocuk T-Shirt', category: 'Çocuk', price: 49.99, image: 'https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9?w=500&h=600&fit=crop' },
-  { id: '22', name: 'Çocuk Pantolon', category: 'Çocuk', price: 89.99, image: 'https://images.unsplash.com/photo-1519238263530-99bdd11df2ea?w=500&h=600&fit=crop' },
-  { id: '23', name: 'Çocuk Elbise', category: 'Çocuk', price: 119.99, image: 'https://images.unsplash.com/photo-1519238263530-99bdd11df2ea?w=500&h=600&fit=crop' },
-  { id: '24', name: 'Çocuk Mont', category: 'Çocuk', price: 199.99, image: 'https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9?w=500&h=600&fit=crop' },
-  { id: '25', name: 'Çocuk Şort', category: 'Çocuk', price: 59.99, image: 'https://images.unsplash.com/photo-1519238263530-99bdd11df2ea?w=500&h=600&fit=crop' },
-  { id: '26', name: 'Çocuk Ceket', category: 'Çocuk', price: 149.99, image: 'https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9?w=500&h=600&fit=crop' },
-  { id: '27', name: 'Çocuk Bluz', category: 'Çocuk', price: 79.99, image: 'https://images.unsplash.com/photo-1519238263530-99bdd11df2ea?w=500&h=600&fit=crop' },
-  { id: '28', name: 'Çocuk Etek', category: 'Çocuk', price: 99.99, image: 'https://images.unsplash.com/photo-1519238263530-99bdd11df2ea?w=500&h=600&fit=crop' },
-  { id: '29', name: 'Çocuk Gömlek', category: 'Çocuk', price: 89.99, image: 'https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9?w=500&h=600&fit=crop' },
-  { id: '30', name: 'Çocuk Tunik', category: 'Çocuk', price: 109.99, image: 'https://images.unsplash.com/photo-1519238263530-99bdd11df2ea?w=500&h=600&fit=crop' },
+  { id: '21', name: 'Çocuk T-Shirt', category: 'Çocuk', price: 49.99, image: '/images/placeholder.svg' },
+  { id: '22', name: 'Çocuk Pantolon', category: 'Çocuk', price: 89.99, image: '/images/placeholder.svg' },
+  { id: '23', name: 'Çocuk Elbise', category: 'Çocuk', price: 119.99, image: '/images/placeholder.svg' },
+  { id: '24', name: 'Çocuk Mont', category: 'Çocuk', price: 199.99, image: '/images/placeholder.svg' },
+  { id: '25', name: 'Çocuk Şort', category: 'Çocuk', price: 59.99, image: '/images/placeholder.svg' },
+  { id: '26', name: 'Çocuk Ceket', category: 'Çocuk', price: 149.99, image: '/images/placeholder.svg' },
+  { id: '27', name: 'Çocuk Bluz', category: 'Çocuk', price: 79.99, image: '/images/placeholder.svg' },
+  { id: '28', name: 'Çocuk Etek', category: 'Çocuk', price: 99.99, image: '/images/placeholder.svg' },
+  { id: '29', name: 'Çocuk Gömlek', category: 'Çocuk', price: 89.99, image: '/images/placeholder.svg' },
+  { id: '30', name: 'Çocuk Tunik', category: 'Çocuk', price: 109.99, image: '/images/placeholder.svg' },
   
   // Ayakkabı ürünleri
-  { id: '31', name: 'Spor Ayakkabı', category: 'Ayakkabı', price: 299.99, image: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=500&h=600&fit=crop' },
-  { id: '32', name: 'Günlük Ayakkabı', category: 'Ayakkabı', price: 199.99, image: 'https://images.unsplash.com/photo-1549298916-b41d501d3772?w=500&h=600&fit=crop' },
-  { id: '33', name: 'Resmi Ayakkabı', category: 'Ayakkabı', price: 399.99, image: 'https://images.unsplash.com/photo-1549298916-b41d501d3772?w=500&h=600&fit=crop' },
-  { id: '34', name: 'Bot', category: 'Ayakkabı', price: 499.99, image: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=500&h=600&fit=crop' },
-  { id: '35', name: 'Sandalet', category: 'Ayakkabı', price: 149.99, image: 'https://images.unsplash.com/photo-1549298916-b41d501d3772?w=500&h=600&fit=crop' },
-  { id: '36', name: 'Loafer', category: 'Ayakkabı', price: 349.99, image: 'https://images.unsplash.com/photo-1549298916-b41d501d3772?w=500&h=600&fit=crop' },
-  { id: '37', name: 'Sneaker', category: 'Ayakkabı', price: 249.99, image: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=500&h=600&fit=crop' },
-  { id: '38', name: 'Oxford', category: 'Ayakkabı', price: 449.99, image: 'https://images.unsplash.com/photo-1549298916-b41d501d3772?w=500&h=600&fit=crop' },
-  { id: '39', name: 'Mokasen', category: 'Ayakkabı', price: 379.99, image: 'https://images.unsplash.com/photo-1549298916-b41d501d3772?w=500&h=600&fit=crop' },
-  { id: '40', name: 'Deri Ayakkabı', category: 'Ayakkabı', price: 599.99, image: 'https://images.unsplash.com/photo-1549298916-b41d501d3772?w=500&h=600&fit=crop' },
+  { id: '31', name: 'Spor Ayakkabı', category: 'Ayakkabı', price: 299.99, image: '/images/placeholder.svg' },
+  { id: '32', name: 'Günlük Ayakkabı', category: 'Ayakkabı', price: 199.99, image: '/images/placeholder.svg' },
+  { id: '33', name: 'Resmi Ayakkabı', category: 'Ayakkabı', price: 399.99, image: '/images/placeholder.svg' },
+  { id: '34', name: 'Bot', category: 'Ayakkabı', price: 499.99, image: '/images/placeholder.svg' },
+  { id: '35', name: 'Sandalet', category: 'Ayakkabı', price: 149.99, image: '/images/placeholder.svg' },
+  { id: '36', name: 'Loafer', category: 'Ayakkabı', price: 349.99, image: '/images/placeholder.svg' },
+  { id: '37', name: 'Sneaker', category: 'Ayakkabı', price: 249.99, image: '/images/placeholder.svg' },
+  { id: '38', name: 'Oxford', category: 'Ayakkabı', price: 449.99, image: '/images/placeholder.svg' },
+  { id: '39', name: 'Mokasen', category: 'Ayakkabı', price: 379.99, image: '/images/placeholder.svg' },
+  { id: '40', name: 'Deri Ayakkabı', category: 'Ayakkabı', price: 599.99, image: '/images/placeholder.svg' },
   
   // Aksesuar ürünleri
-  { id: '41', name: 'Saat', category: 'Aksesuar', price: 599.99, image: 'https://images.unsplash.com/photo-1523170335258-f5ed11844a49?w=500&h=600&fit=crop' },
-  { id: '42', name: 'Çanta', category: 'Aksesuar', price: 199.99, image: 'https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=500&h=600&fit=crop' },
-  { id: '43', name: 'Kolye', category: 'Aksesuar', price: 99.99, image: 'https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=500&h=600&fit=crop' },
-  { id: '44', name: 'Güneş Gözlüğü', category: 'Aksesuar', price: 149.99, image: 'https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=500&h=600&fit=crop' },
-  { id: '45', name: 'Kemer', category: 'Aksesuar', price: 79.99, image: 'https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=500&h=600&fit=crop' },
-  { id: '46', name: 'Şal', category: 'Aksesuar', price: 89.99, image: 'https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=500&h=600&fit=crop' },
-  { id: '47', name: 'Cüzdan', category: 'Aksesuar', price: 129.99, image: 'https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=500&h=600&fit=crop' },
-  { id: '48', name: 'Bilezik', category: 'Aksesuar', price: 69.99, image: 'https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=500&h=600&fit=crop' },
-  { id: '49', name: 'Şapka', category: 'Aksesuar', price: 119.99, image: 'https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=500&h=600&fit=crop' },
-  { id: '50', name: 'Eldiven', category: 'Aksesuar', price: 59.99, image: 'https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=500&h=600&fit=crop' }
+  { id: '41', name: 'Saat', category: 'Aksesuar', price: 599.99, image: '/images/placeholder.svg' },
+  { id: '42', name: 'Çanta', category: 'Aksesuar', price: 199.99, image: '/images/placeholder.svg' },
+  { id: '43', name: 'Kolye', category: 'Aksesuar', price: 99.99, image: '/images/placeholder.svg' },
+  { id: '44', name: 'Güneş Gözlüğü', category: 'Aksesuar', price: 149.99, image: '/images/placeholder.svg' },
+  { id: '45', name: 'Kemer', category: 'Aksesuar', price: 79.99, image: '/images/placeholder.svg' },
+  { id: '46', name: 'Şal', category: 'Aksesuar', price: 89.99, image: '/images/placeholder.svg' },
+  { id: '47', name: 'Cüzdan', category: 'Aksesuar', price: 129.99, image: '/images/placeholder.svg' },
+  { id: '48', name: 'Bilezik', category: 'Aksesuar', price: 69.99, image: '/images/placeholder.svg' },
+  { id: '49', name: 'Şapka', category: 'Aksesuar', price: 119.99, image: '/images/placeholder.svg' },
+  { id: '50', name: 'Eldiven', category: 'Aksesuar', price: 59.99, image: '/images/placeholder.svg' }
 ]
 
 export default function Header({ onCartClick, cartItemCount }: HeaderProps) {
@@ -88,7 +88,13 @@ export default function Header({ onCartClick, cartItemCount }: HeaderProps) {
   const [searchResults, setSearchResults] = useState<any[]>([])
   const [showSearchResults, setShowSearchResults] = useState(false)
   const [products, setProducts] = useState(allProducts)
+  const [currentPath, setCurrentPath] = useState('')
   const router = useRouter()
+
+  // Aktif sayfa yolunu takip et
+  useEffect(() => {
+    setCurrentPath(window.location.pathname)
+  }, [])
 
   useEffect(() => {
     // Kullanıcı bilgilerini localStorage'dan al
@@ -238,22 +244,64 @@ export default function Header({ onCartClick, cartItemCount }: HeaderProps) {
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center space-x-8">
-            <Link href="/" className="text-gray-700 hover:text-blue-600 transition-colors font-medium">
+            <Link 
+              href="/" 
+              className={`transition-colors font-medium ${
+                currentPath === '/' 
+                  ? 'text-blue-600 border-b-2 border-blue-600 pb-1' 
+                  : 'text-gray-700 hover:text-blue-600'
+              }`}
+            >
               Ana Sayfa
             </Link>
-            <Link href="/erkek" className="text-gray-700 hover:text-blue-600 transition-colors font-medium">
+            <Link 
+              href="/erkek" 
+              className={`transition-colors font-medium ${
+                currentPath === '/erkek' 
+                  ? 'text-blue-600 border-b-2 border-blue-600 pb-1' 
+                  : 'text-gray-700 hover:text-blue-600'
+              }`}
+            >
               Erkek
             </Link>
-            <Link href="/kadin" className="text-gray-700 hover:text-blue-600 transition-colors font-medium">
+            <Link 
+              href="/kadin" 
+              className={`transition-colors font-medium ${
+                currentPath === '/kadin' 
+                  ? 'text-blue-600 border-b-2 border-blue-600 pb-1' 
+                  : 'text-gray-700 hover:text-blue-600'
+              }`}
+            >
               Kadın
             </Link>
-            <Link href="/cocuk" className="text-gray-700 hover:text-blue-600 transition-colors font-medium">
+            <Link 
+              href="/cocuk" 
+              className={`transition-colors font-medium ${
+                currentPath === '/cocuk' 
+                  ? 'text-blue-600 border-b-2 border-blue-600 pb-1' 
+                  : 'text-gray-700 hover:text-blue-600'
+              }`}
+            >
               Çocuk
             </Link>
-            <Link href="/ayakkabi" className="text-gray-700 hover:text-blue-600 transition-colors font-medium">
+            <Link 
+              href="/ayakkabi" 
+              className={`transition-colors font-medium ${
+                currentPath === '/ayakkabi' 
+                  ? 'text-blue-600 border-b-2 border-blue-600 pb-1' 
+                  : 'text-gray-700 hover:text-blue-600'
+              }`}
+            >
               Ayakkabı
             </Link>
-            <Link href="/aksesuar" className="text-gray-700 hover:text-blue-600 transition-colors font-medium">
+            <Link 
+              href="/aksesuar" 
+              className={`transition-colors font-medium ${
+                currentPath === '/aksesuar' 
+                  ? 'text-blue-600 border-b-2 border-blue-600 pb-1' 
+                  : 'text-gray-700 hover:text-blue-600'
+              }`}
+            >
               Aksesuar
             </Link>
           </nav>
@@ -379,22 +427,64 @@ export default function Header({ onCartClick, cartItemCount }: HeaderProps) {
         {isMenuOpen && (
           <div className="md:hidden border-t border-gray-200 py-4">
             <nav className="space-y-2">
-              <Link href="/" className="block px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-lg">
+              <Link 
+                href="/" 
+                className={`block px-4 py-2 rounded-lg ${
+                  currentPath === '/' 
+                    ? 'text-blue-600 bg-blue-50 border-l-4 border-blue-600' 
+                    : 'text-gray-700 hover:bg-gray-100'
+                }`}
+              >
                 Ana Sayfa
               </Link>
-              <Link href="/erkek" className="block px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-lg">
+              <Link 
+                href="/erkek" 
+                className={`block px-4 py-2 rounded-lg ${
+                  currentPath === '/erkek' 
+                    ? 'text-blue-600 bg-blue-50 border-l-4 border-blue-600' 
+                    : 'text-gray-700 hover:bg-gray-100'
+                }`}
+              >
                 Erkek
               </Link>
-              <Link href="/kadin" className="block px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-lg">
+              <Link 
+                href="/kadin" 
+                className={`block px-4 py-2 rounded-lg ${
+                  currentPath === '/kadin' 
+                    ? 'text-blue-600 bg-blue-50 border-l-4 border-blue-600' 
+                    : 'text-gray-700 hover:bg-gray-100'
+                }`}
+              >
                 Kadın
               </Link>
-              <Link href="/cocuk" className="block px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-lg">
+              <Link 
+                href="/cocuk" 
+                className={`block px-4 py-2 rounded-lg ${
+                  currentPath === '/cocuk' 
+                    ? 'text-blue-600 bg-blue-50 border-l-4 border-blue-600' 
+                    : 'text-gray-700 hover:bg-gray-100'
+                }`}
+              >
                 Çocuk
               </Link>
-              <Link href="/ayakkabi" className="block px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-lg">
+              <Link 
+                href="/ayakkabi" 
+                className={`block px-4 py-2 rounded-lg ${
+                  currentPath === '/ayakkabi' 
+                    ? 'text-blue-600 bg-blue-50 border-l-4 border-blue-600' 
+                    : 'text-gray-700 hover:bg-gray-100'
+                }`}
+              >
                 Ayakkabı
               </Link>
-              <Link href="/aksesuar" className="block px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-lg">
+              <Link 
+                href="/aksesuar" 
+                className={`block px-4 py-2 rounded-lg ${
+                  currentPath === '/aksesuar' 
+                    ? 'text-blue-600 bg-blue-50 border-l-4 border-blue-600' 
+                    : 'text-gray-700 hover:bg-gray-100'
+                }`}
+              >
                 Aksesuar
               </Link>
             </nav>

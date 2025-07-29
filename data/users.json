@@ -1,0 +1,12 @@
+[
+  {
+    "id": "user_1753766138158",
+    "name": "Test Kullanici",
+    "email": "test@example.com",
+    "phone": "0555 123 4567",
+    "joinDate": "2025-07-29",
+    "orderCount": 0,
+    "totalSpent": 0,
+    "status": "active"
+  }
+]

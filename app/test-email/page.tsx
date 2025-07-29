@@ -1,92 +1,64 @@
 'use client'
 
 import { useState } from 'react'
+import Link from 'next/link'
 
 export default function TestEmailPage() {
-  const [email, setEmail] = useState('')
+  const [email, setEmail] = useState('01neo001@gmail.com')
   const [loading, setLoading] = useState(false)
-  const [result, setResult] = useState<any>(null)
+  const [result, setResult] = useState('')
 
-  const handleTestEmail = async () => {
-    if (!email) {
-      alert('Lütfen e-posta adresi girin')
-      return
-    }
-
+  const sendTestEmail = async () => {
     setLoading(true)
-    setResult(null)
-
+    setResult('')
+    
     try {
       const response = await fetch('/api/email/test', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ email })
+        body: JSON.stringify({ email }),
       })
 
       const data = await response.json()
-      setResult(data)
+      
+      if (data.success) {
+        setResult('✅ Test e-postası başarıyla gönderildi! Gmail hesabınızı kontrol edin.')
+      } else {
+        setResult('❌ E-posta gönderilemedi: ' + data.message)
+      }
     } catch (error) {
-      setResult({ error: 'Test e-postası gönderilemedi' })
+      setResult('❌ Hata oluştu: ' + String(error))
     } finally {
       setLoading(false)
     }
   }
 
-  const handleTestOrderEmail = async () => {
-    if (!email) {
-      alert('Lütfen e-posta adresi girin')
-      return
-    }
-
+  const sendOrderConfirmationEmail = async () => {
     setLoading(true)
-    setResult(null)
-
+    setResult('')
+    
     try {
-      // Test sipariş verisi
-      const testOrder = {
-        id: `TEST-${Date.now()}`,
+      const orderData = {
+        id: 'TEST-' + Date.now(),
         items: [
-          {
-            id: '1',
-            name: 'Test Ürün 1',
-            price: 99.99,
-            quantity: 2,
-            size: 'M',
-            color: 'Mavi',
-            image: 'https://via.placeholder.com/150'
-          },
-          {
-            id: '2',
-            name: 'Test Ürün 2',
-            price: 149.99,
-            quantity: 1,
-            size: 'L',
-            color: 'Siyah',
-            image: 'https://via.placeholder.com/150'
-          }
+          { name: 'Test Ürün 1', price: 99.99, quantity: 2 },
+          { name: 'Test Ürün 2', price: 149.99, quantity: 1 }
         ],
         shipping: {
-          firstName: 'Test',
-          lastName: 'Kullanıcı',
+          name: 'Test Kullanıcı',
           email: email,
-          phone: '+90 555 123 4567',
-          address: 'Test Mahallesi, Test Sokak No:1',
-          city: 'İstanbul',
-          postalCode: '34000'
+          address: 'Test Adres',
+          city: 'Test Şehir',
+          phone: '+90 555 123 4567'
         },
         payment: {
-          method: 'bank-transfer',
-          bankInfo: {
-            bankName: 'Garanti BBVA',
-            accountName: 'Neomedya E-ticaret Ltd. Şti.',
-            iban: 'TR12 0006 2000 0000 0000 0000 00'
-          }
+          method: 'Banka Transferi',
+          status: 'Beklemede'
         },
         total: 349.97,
-        date: new Date().toISOString(),
-        status: 'payment_pending'
+        status: 'Beklemede'
       }
 
       const response = await fetch('/api/email/order-confirmation', {
@@ -94,88 +66,104 @@ export default function TestEmailPage() {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ order: testOrder })
+        body: JSON.stringify({ order: orderData }),
       })
 
       const data = await response.json()
-      setResult(data)
+      
+      if (data.success) {
+        setResult('✅ Sipariş onay e-postası başarıyla gönderildi! Gmail hesabınızı kontrol edin.')
+      } else {
+        setResult('❌ E-posta gönderilemedi: ' + data.message)
+      }
     } catch (error) {
-      setResult({ error: 'Sipariş e-postası gönderilemedi' })
+      setResult('❌ Hata oluştu: ' + String(error))
     } finally {
       setLoading(false)
     }
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 py-12">
-      <div className="max-w-md mx-auto bg-white rounded-lg shadow-md p-6">
-        <h1 className="text-2xl font-bold text-gray-900 mb-6">E-posta Test Sayfası</h1>
-        
-        <div className="space-y-4">
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              E-posta Adresi
-            </label>
-            <input
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="test@example.com"
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 py-12">
+      <div className="max-w-4xl mx-auto px-4">
+        <div className="bg-white rounded-xl shadow-lg p-8">
+          <div className="text-center mb-8">
+            <h1 className="text-3xl font-bold text-gray-900 mb-4">
+              📧 E-posta Sistemi Test Sayfası
+            </h1>
+            <p className="text-lg text-gray-600">
+              E-posta sistemini test etmek için aşağıdaki butonları kullanın
+            </p>
           </div>
 
-          <div className="space-y-2">
-            <button
-              onClick={handleTestEmail}
-              disabled={loading}
-              className="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 disabled:opacity-50"
-            >
-              {loading ? 'Gönderiliyor...' : 'Basit Test E-postası Gönder'}
-            </button>
-
-            <button
-              onClick={handleTestOrderEmail}
-              disabled={loading}
-              className="w-full bg-green-600 text-white py-2 px-4 rounded-md hover:bg-green-700 disabled:opacity-50"
-            >
-              {loading ? 'Gönderiliyor...' : 'Sipariş E-postası Gönder'}
-            </button>
-          </div>
-
-          {result && (
-            <div className={`mt-4 p-4 rounded-md ${
-              result.success 
-                ? 'bg-green-50 border border-green-200' 
-                : 'bg-red-50 border border-red-200'
-            }`}>
-              <h3 className={`font-medium ${
-                result.success ? 'text-green-800' : 'text-red-800'
-              }`}>
-                {result.success ? '✅ Başarılı' : '❌ Hata'}
-              </h3>
-              <p className={`text-sm mt-1 ${
-                result.success ? 'text-green-700' : 'text-red-700'
-              }`}>
-                {result.message || result.error}
-              </p>
-              {result.details && (
-                <div className="mt-2 text-xs text-gray-600">
-                  <pre className="bg-gray-100 p-2 rounded">
-                    {JSON.stringify(result.details, null, 2)}
-                  </pre>
-                </div>
-              )}
+          <div className="space-y-6">
+            {/* E-posta Adresi */}
+            <div>
+              <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
+                E-posta Adresi
+              </label>
+              <input
+                type="email"
+                id="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                placeholder="E-posta adresinizi girin"
+              />
             </div>
-          )}
-        </div>
 
-        <div className="mt-6 p-4 bg-yellow-50 border border-yellow-200 rounded-md">
-          <h3 className="font-medium text-yellow-800 mb-2">📝 Not</h3>
-          <p className="text-sm text-yellow-700">
-            Bu sayfa e-posta sistemini test etmek için oluşturulmuştur. 
-            Gerçek e-posta göndermek için environment variables ayarlamanız gerekir.
-          </p>
+            {/* Test Butonları */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <button
+                onClick={sendTestEmail}
+                disabled={loading}
+                className="bg-blue-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-blue-700 transition-colors disabled:bg-gray-300 disabled:cursor-not-allowed"
+              >
+                {loading ? '⏳ Gönderiliyor...' : '📧 Test E-postası Gönder'}
+              </button>
+
+              <button
+                onClick={sendOrderConfirmationEmail}
+                disabled={loading}
+                className="bg-green-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-green-700 transition-colors disabled:bg-gray-300 disabled:cursor-not-allowed"
+              >
+                {loading ? '⏳ Gönderiliyor...' : '📦 Sipariş Onay E-postası Gönder'}
+              </button>
+            </div>
+
+            {/* Sonuç */}
+            {result && (
+              <div className={`p-4 rounded-lg ${
+                result.includes('✅') 
+                  ? 'bg-green-100 text-green-800 border border-green-200' 
+                  : 'bg-red-100 text-red-800 border border-red-200'
+              }`}>
+                {result}
+              </div>
+            )}
+
+            {/* Bilgi */}
+            <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+              <h3 className="font-semibold text-blue-900 mb-2">ℹ️ Bilgi</h3>
+              <ul className="text-sm text-blue-800 space-y-1">
+                <li>• Test e-postası basit bir mesaj içerir</li>
+                <li>• Sipariş onay e-postası detaylı sipariş bilgileri içerir</li>
+                <li>• E-postalar Gmail hesabınıza gönderilir</li>
+                <li>• Environment variables ayarlanmışsa gerçek e-posta gönderilir</li>
+                <li>• Ayarlanmamışsa simülasyon modunda çalışır</li>
+              </ul>
+            </div>
+
+            {/* Geri Dön */}
+            <div className="text-center">
+              <Link
+                href="/"
+                className="inline-block bg-gray-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-gray-700 transition-colors"
+              >
+                ← Ana Sayfaya Dön
+              </Link>
+            </div>
+          </div>
         </div>
       </div>
     </div>

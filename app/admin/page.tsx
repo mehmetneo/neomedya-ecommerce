@@ -32,9 +32,9 @@ export default function AdminPage() {
         if (!data.authenticated) {
           console.log('❌ Authentication başarısız, login sayfasına yönlendiriliyor...')
           router.push('/admin/login')
-          return
-        }
-
+      return
+    }
+    
         console.log('✅ Authentication başarılı, admin kullanıcısı set ediliyor...')
         setAdminUser(data.user)
       } catch (error) {
@@ -102,14 +102,14 @@ export default function AdminPage() {
               <div className="flex items-center space-x-2">
                 <div className="w-8 h-8 bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg flex items-center justify-center">
                   <span className="text-white font-bold text-sm">N</span>
-                </div>
+              </div>
                 <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
                   Neomedya
                 </h1>
-              </div>
+            </div>
               <span className="text-gray-400">|</span>
               <span className="text-gray-600 font-medium">Admin Paneli</span>
-            </div>
+        </div>
 
             {/* Admin Kullanıcı Bilgisi ve Çıkış */}
             <div className="flex items-center space-x-4">
@@ -125,41 +125,41 @@ export default function AdminPage() {
               </button>
             </div>
           </div>
-        </div>
-      </div>
+            </div>
+          </div>
 
       {/* Navigation Tabs */}
       <div className="bg-white border-b">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <nav className="flex space-x-8">
-            {[
-              { id: 'dashboard', name: 'Dashboard', icon: '📊' },
-              { id: 'users', name: 'Kullanıcılar', icon: '👥' },
-              { id: 'orders', name: 'Siparişler', icon: '📦' },
-              { id: 'products', name: 'Ürünler', icon: '🛍️' },
-              { id: 'settings', name: 'Ayarlar', icon: '⚙️' }
-            ].map((tab) => (
-              <button
-                key={tab.id}
-                onClick={() => setActiveTab(tab.id)}
+            <nav className="flex space-x-8">
+              {[
+                { id: 'dashboard', name: 'Dashboard', icon: '📊' },
+                { id: 'users', name: 'Kullanıcılar', icon: '👥' },
+                { id: 'orders', name: 'Siparişler', icon: '📦' },
+                { id: 'products', name: 'Ürünler', icon: '🛍️' },
+                { id: 'settings', name: 'Ayarlar', icon: '⚙️' }
+              ].map((tab) => (
+                <button
+                  key={tab.id}
+                  onClick={() => setActiveTab(tab.id)}
                 className={`py-4 px-1 border-b-2 font-medium text-sm flex items-center space-x-2 ${
-                  activeTab === tab.id
+                    activeTab === tab.id
                     ? 'border-blue-500 text-blue-600'
                     : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
-                }`}
-              >
-                <span>{tab.icon}</span>
-                <span>{tab.name}</span>
-              </button>
-            ))}
-          </nav>
+                  }`}
+                >
+                  <span>{tab.icon}</span>
+                  <span>{tab.name}</span>
+                </button>
+              ))}
+            </nav>
         </div>
-      </div>
+          </div>
 
       {/* Main Content */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {activeTab === 'dashboard' && (
-          <div className="space-y-6">
+          {activeTab === 'dashboard' && (
+            <div className="space-y-6">
             {/* Güvenlik Uyarısı */}
             <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
               <div className="flex">
@@ -177,66 +177,66 @@ export default function AdminPage() {
               </div>
             </div>
 
-            {/* İstatistikler */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+              {/* İstatistikler */}
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
               <div className="bg-white rounded-lg shadow p-6">
-                <div className="flex items-center">
+                  <div className="flex items-center">
                   <div className="flex-shrink-0">
                     <div className="w-8 h-8 bg-purple-100 rounded-lg flex items-center justify-center">
                       <span className="text-purple-600 text-lg">👥</span>
                     </div>
-                  </div>
-                  <div className="ml-4">
+                    </div>
+                    <div className="ml-4">
                     <p className="text-sm font-medium text-gray-500">Toplam Kullanıcı</p>
                     <p className="text-2xl font-bold text-gray-900">3</p>
+                    </div>
                   </div>
                 </div>
-              </div>
-
+                
               <div className="bg-white rounded-lg shadow p-6">
-                <div className="flex items-center">
+                  <div className="flex items-center">
                   <div className="flex-shrink-0">
                     <div className="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center">
                       <span className="text-green-600 text-lg">📦</span>
                     </div>
-                  </div>
-                  <div className="ml-4">
+                    </div>
+                    <div className="ml-4">
                     <p className="text-sm font-medium text-gray-500">Toplam Sipariş</p>
                     <p className="text-2xl font-bold text-gray-900">{orders.length}</p>
+                    </div>
                   </div>
                 </div>
-              </div>
-
+                
               <div className="bg-white rounded-lg shadow p-6">
-                <div className="flex items-center">
+                  <div className="flex items-center">
                   <div className="flex-shrink-0">
                     <div className="w-8 h-8 bg-yellow-100 rounded-lg flex items-center justify-center">
                       <span className="text-yellow-600 text-lg">💰</span>
                     </div>
-                  </div>
-                  <div className="ml-4">
+                    </div>
+                    <div className="ml-4">
                     <p className="text-sm font-medium text-gray-500">Toplam Gelir</p>
                     <p className="text-2xl font-bold text-gray-900">
                       ₺{orders.reduce((sum, order) => sum + order.total, 0).toFixed(2)}
                     </p>
+                    </div>
                   </div>
                 </div>
-              </div>
-
+                
               <div className="bg-white rounded-lg shadow p-6">
-                <div className="flex items-center">
+                  <div className="flex items-center">
                   <div className="flex-shrink-0">
                     <div className="w-8 h-8 bg-purple-100 rounded-lg flex items-center justify-center">
                       <span className="text-purple-600 text-lg">🔒</span>
                     </div>
-                  </div>
-                  <div className="ml-4">
+                    </div>
+                    <div className="ml-4">
                     <p className="text-sm font-medium text-gray-500">Toplam Ürün</p>
                     <p className="text-2xl font-bold text-gray-900">8</p>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
 
             {/* Test Bildirimi */}
             <div className="bg-white rounded-lg shadow p-6">
@@ -248,7 +248,7 @@ export default function AdminPage() {
                     5
                   </span>
                 </button>
-              </div>
+                </div>
             </div>
 
             {/* Son Siparişler */}
@@ -257,28 +257,28 @@ export default function AdminPage() {
               {orders.length === 0 ? (
                 <p className="text-gray-500">Henüz sipariş bulunmuyor</p>
               ) : (
-                <div className="space-y-4">
+                    <div className="space-y-4">
                   {orders.slice(0, 5).map((order) => (
                     <div key={order.id} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-                      <div>
+                          <div>
                         <p className="font-medium text-gray-900">Sipariş #{order.id}</p>
                         <p className="text-sm text-gray-500">{order.shipping.name}</p>
-                      </div>
-                      <div className="text-right">
+                          </div>
+                          <div className="text-right">
                         <p className="font-medium text-gray-900">₺{order.total.toFixed(2)}</p>
                         <p className="text-sm text-gray-500">{order.status}</p>
-                      </div>
+                          </div>
+                        </div>
+                      ))}
                     </div>
-                  ))}
-                </div>
-              )}
-            </div>
+                  )}
+              </div>
 
             {/* Dağılım Grafikleri */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               <div className="bg-white rounded-lg shadow p-6">
                 <h3 className="text-lg font-medium text-gray-900 mb-4">Kategori Dağılımı</h3>
-                <div className="space-y-3">
+                  <div className="space-y-3">
                   {[
                     { name: 'Erkek', count: 3, percentage: 37.5 },
                     { name: 'Kadın', count: 2, percentage: 25 },
@@ -288,23 +288,23 @@ export default function AdminPage() {
                   ].map((category) => (
                     <div key={category.name} className="flex items-center justify-between">
                       <span className="text-sm text-gray-600">{category.name}</span>
-                      <div className="flex items-center space-x-2">
-                        <div className="w-32 bg-gray-200 rounded-full h-2">
-                          <div
-                            className="bg-blue-600 h-2 rounded-full"
+                          <div className="flex items-center space-x-2">
+                            <div className="w-32 bg-gray-200 rounded-full h-2">
+                              <div 
+                                className="bg-blue-600 h-2 rounded-full" 
                             style={{ width: `${category.percentage}%` }}
-                          ></div>
-                        </div>
+                              ></div>
+                            </div>
                         <span className="text-sm text-gray-500">{category.count}</span>
-                      </div>
-                    </div>
+                          </div>
+                        </div>
                   ))}
+                  </div>
                 </div>
-              </div>
 
               <div className="bg-white rounded-lg shadow p-6">
                 <h3 className="text-lg font-medium text-gray-900 mb-4">Sipariş Durumu</h3>
-                <div className="space-y-3">
+                  <div className="space-y-3">
                   {[
                     { name: 'Tamamlandı', count: orders.filter(o => o.status === 'delivered').length, color: 'bg-green-600' },
                     { name: 'Hazırlanıyor', count: orders.filter(o => o.status === 'processing').length, color: 'bg-blue-600' },
@@ -313,19 +313,19 @@ export default function AdminPage() {
                   ].map((status) => (
                     <div key={status.name} className="flex items-center justify-between">
                       <span className="text-sm text-gray-600">{status.name}</span>
-                      <div className="flex items-center space-x-2">
-                        <div className="w-32 bg-gray-200 rounded-full h-2">
+                          <div className="flex items-center space-x-2">
+                            <div className="w-32 bg-gray-200 rounded-full h-2">
                           <div className={`${status.color} h-2 rounded-full`} style={{ width: `${(status.count / orders.length) * 100}%` }}></div>
-                        </div>
+                            </div>
                         <span className="text-sm text-gray-500">{status.count}</span>
-                      </div>
-                    </div>
+                          </div>
+                        </div>
                   ))}
+                </div>
                 </div>
               </div>
             </div>
-          </div>
-        )}
+          )}
 
         {activeTab === 'users' && <AdminUsersPage />}
 

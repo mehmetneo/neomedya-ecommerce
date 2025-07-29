@@ -110,53 +110,43 @@ export default function KayitPage() {
     setError('')
 
     try {
-      // Mevcut kullanıcıları kontrol et
-      const existingUsers = JSON.parse(localStorage.getItem('users') || '[]')
+      // API'ye kullanıcı kaydı gönder
+      const response = await fetch('/api/admin/users', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          phone: formData.phone
+        })
+      })
+
+      const data = await response.json()
       
-      // E-posta kontrolü
-      const emailExists = existingUsers.find((user: User) => user.email === formData.email)
-      if (emailExists) {
-        setError('Bu e-posta adresi zaten kayıtlı!')
-        setIsLoading(false)
-        return
+      if (data.success) {
+        // Kullanıcı bilgilerini localStorage'a kaydet
+        const userData = {
+          id: data.user.id,
+          name: data.user.name,
+          email: data.user.email,
+          isLoggedIn: true
+        }
+        localStorage.setItem('user', JSON.stringify(userData))
+
+        setSuccess('Kayıt başarılı! Ana sayfaya yönlendiriliyorsunuz...')
+        console.log('✅ Yeni kullanıcı kaydedildi:', data.user.email)
+        
+        setTimeout(() => {
+          router.push('/')
+        }, 2000)
+      } else {
+        setError(data.error || 'Kayıt sırasında bir hata oluştu. Lütfen tekrar deneyin.')
       }
-
-      // Yeni kullanıcı oluştur
-      const newUser: User = {
-        id: `user_${Date.now()}`,
-        name: formData.name,
-        email: formData.email,
-        password: formData.password,
-        phone: formData.phone,
-        address: formData.address,
-        city: formData.city,
-        postalCode: formData.postalCode,
-        birthDate: formData.birthDate,
-        gender: formData.gender,
-        isAdmin: false,
-        createdAt: new Date().toISOString()
-      }
-
-      // Kullanıcıyı kaydet
-      existingUsers.push(newUser)
-      localStorage.setItem('users', JSON.stringify(existingUsers))
-
-      // Giriş yap
-      const userData = {
-        id: newUser.id,
-        name: newUser.name,
-        email: newUser.email,
-        isLoggedIn: true
-      }
-      localStorage.setItem('user', JSON.stringify(userData))
-
-      setSuccess('Kayıt başarılı! Ana sayfaya yönlendiriliyorsunuz...')
-      
-      setTimeout(() => {
-        router.push('/')
-      }, 2000)
 
     } catch (error) {
+      console.error('❌ Kayıt hatası:', error)
       setError('Kayıt sırasında bir hata oluştu. Lütfen tekrar deneyin.')
     }
 

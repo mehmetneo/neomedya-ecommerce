@@ -24,25 +24,68 @@ interface Product {
 export default function FeaturedProducts() {
   const [products, setProducts] = useState<Product[]>([])
   const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
+
+  // Ürünleri API'den çek
+  const fetchProducts = async () => {
+    try {
+      setLoading(true)
+      setError(null)
+      
+      // Tüm kategorilerden ürünleri topla
+      const allProducts: Product[] = []
+      
+      // Her kategoriden ürünleri çek
+      const categories = ['erkek', 'kadin', 'cocuk', 'ayakkabı', 'aksesuar']
+      
+      for (const category of categories) {
+        try {
+          const response = await fetch(`/api/products?category=${category}`)
+          const data = await response.json()
+          
+          if (data.success && data.products.length > 0) {
+            // Ürünleri formatla
+            const formattedProducts = data.products.map((product: any) => ({
+              ...product,
+              salesCount: Math.floor(Math.random() * 200) + 50, // 50-250 arası rastgele satış sayısı
+              images: product.images || [product.image]
+            }))
+            allProducts.push(...formattedProducts)
+          }
+        } catch (err) {
+          console.error(`${category} kategorisi için ürün yükleme hatası:`, err)
+        }
+      }
+      
+      // Ürünleri karıştır ve rastgele 8 tanesini seç
+      const shuffled = allProducts.sort(() => 0.5 - Math.random())
+      const selectedProducts = shuffled.slice(0, 8)
+      
+      setProducts(selectedProducts)
+    } catch (err) {
+      setError('Ürünler yüklenirken hata oluştu')
+      console.error('❌ Ürün yükleme hatası:', err)
+    } finally {
+      setLoading(false)
+    }
+  }
 
   useEffect(() => {
-    const loadProducts = async () => {
-      try {
-        setLoading(true)
-        const response = await fetch('/api/products?limit=8')
-        const data = await response.json()
+    fetchProducts()
+  }, [])
 
-        if (data.success) {
-          setProducts(data.products)
-        }
-      } catch (error) {
-        console.error('❌ Ürün yükleme hatası:', error)
-      } finally {
-        setLoading(false)
-      }
+  // Admin panelinde ürün güncellendiğinde sayfayı yenile
+  useEffect(() => {
+    const handleProductsUpdated = (event: CustomEvent) => {
+      console.log('🔄 Öne çıkan ürünler güncellendi, sayfa yenileniyor...')
+      fetchProducts()
     }
 
-    loadProducts()
+    window.addEventListener('productsUpdated' as any, handleProductsUpdated)
+    
+    return () => {
+      window.removeEventListener('productsUpdated' as any, handleProductsUpdated)
+    }
   }, [])
 
   const addToCart = (product: Product) => {
@@ -59,12 +102,34 @@ export default function FeaturedProducts() {
         name: product.name,
         price: product.price,
         image: product.image,
+        size: 'M',
+        color: 'Standart',
         quantity: 1
       })
     }
 
     localStorage.setItem('cart', JSON.stringify(cart))
     window.dispatchEvent(new Event('cartUpdated'))
+    
+    console.log('✅ Ürün sepete eklendi:', product.name)
+  }
+
+  const getProductEmoji = (category: string) => {
+    switch (category.toLowerCase()) {
+      case 'erkek':
+        return '👔'
+      case 'kadin':
+        return '👗'
+      case 'cocuk':
+        return '👶'
+      case 'ayakkabı':
+      case 'ayakkabi':
+        return '👟'
+      case 'aksesuar':
+        return '💍'
+      default:
+        return '🛍️'
+    }
   }
 
   if (loading) {
@@ -85,6 +150,29 @@ export default function FeaturedProducts() {
                 <div className="h-6 bg-gray-200 rounded w-1/2"></div>
               </div>
             ))}
+          </div>
+        </div>
+      </section>
+    )
+  }
+
+  if (error) {
+    return (
+      <section className="py-16">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold text-gray-900 mb-4">Öne Çıkan Ürünler</h2>
+            <p className="text-lg text-gray-600 mb-8">En popüler ürünlerimizi keşfedin</p>
+          </div>
+          
+          <div className="text-center">
+            <p className="text-red-600 mb-4">{error}</p>
+            <button 
+              onClick={fetchProducts}
+              className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+            >
+              Tekrar Dene
+            </button>
           </div>
         </div>
       </section>
@@ -116,16 +204,23 @@ export default function FeaturedProducts() {
           {products.map((product) => (
             <div key={product.id} className="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 overflow-hidden group">
               <div className="relative">
-                <img
-                  src={product.image || '/images/placeholder.jpg'}
-                  alt={product.name}
-                  className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
-                  onError={(e) => {
-                    e.currentTarget.src = '/images/placeholder.jpg'
-                  }}
-                />
+                <div className="w-full h-48 bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center relative overflow-hidden">
+                  <img 
+                    src={product.image} 
+                    alt={product.name}
+                    className="w-full h-full object-cover"
+                  />
+                  <div className="absolute inset-0 bg-black bg-opacity-20 flex items-center justify-center">
+                    <span className="text-4xl bg-white bg-opacity-90 rounded-full p-3 shadow-lg">
+                      {getProductEmoji(product.category)}
+                    </span>
+                  </div>
+                  <div className="absolute top-2 left-2 bg-blue-600 text-white px-2 py-1 rounded text-xs font-medium">
+                    {product.category}
+                  </div>
+                </div>
                 {product.originalPrice && product.originalPrice > product.price && (
-                  <div className="absolute top-2 left-2 bg-red-500 text-white px-2 py-1 rounded text-sm font-medium">
+                  <div className="absolute top-2 right-2 bg-red-500 text-white px-2 py-1 rounded text-sm font-medium">
                     %{Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100)} İndirim
                   </div>
                 )}
@@ -169,7 +264,7 @@ export default function FeaturedProducts() {
                     {product.stock === 0 ? 'Tükendi' : 'Sepete Ekle'}
                   </button>
                   <Link
-                    href={`/urun/${product.id}`}
+                    href={`/${product.category.toLowerCase()}`}
                     className="flex-1 bg-gray-100 text-gray-700 py-2 px-4 rounded-lg hover:bg-gray-200 transition-colors text-sm font-medium text-center"
                   >
                     Detay
@@ -182,10 +277,10 @@ export default function FeaturedProducts() {
         
         <div className="text-center mt-8">
           <Link
-            href="/urunler"
+            href="/erkek"
             className="inline-block bg-blue-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-blue-700 transition-colors"
           >
-            Tüm Ürünleri Gör
+            Kategorileri Keşfet
           </Link>
         </div>
       </div>
