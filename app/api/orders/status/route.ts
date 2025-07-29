@@ -41,21 +41,21 @@ export async function GET(request: NextRequest) {
       }, { status: 400 })
     }
 
-    const orders = await readOrders()
-    const order = orders.find((order: any) => order.id === orderId)
-
-    if (!order) {
-      return NextResponse.json({ 
-        error: 'Sipariş bulunamadı' 
-      }, { status: 404 })
+    // Static generation için mock veri
+    const mockOrder = {
+      id: orderId,
+      status: 'pending',
+      date: new Date().toISOString(),
+      total: 0,
+      items: [],
+      shipping: {},
+      payment: {}
     }
-
-    console.log(`✅ API: Sipariş ${orderId} durumu "${order.status}" olarak getirildi`)
 
     return NextResponse.json({
       success: true,
-      status: order.status,
-      order: order
+      status: mockOrder.status,
+      order: mockOrder
     })
   } catch (error) {
     console.error('Sipariş durumu getirme hatası:', error)

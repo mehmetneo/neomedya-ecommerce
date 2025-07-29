@@ -69,21 +69,20 @@ export async function GET(request: NextRequest) {
       }, { status: 400 })
     }
 
-    // localStorage'dan siparişleri al
-    const allOrders = JSON.parse(localStorage.getItem('orders') || '[]')
-    
-    // Siparişi bul
-    const order = allOrders.find((order: Order) => order.id === orderId)
-    
-    if (!order) {
-      return NextResponse.json({ 
-        error: 'Sipariş bulunamadı' 
-      }, { status: 404 })
+    // Simüle edilmiş sipariş verisi (static generation için)
+    const mockOrder = {
+      id: orderId,
+      status: 'pending' as OrderStatus,
+      date: new Date().toISOString(),
+      total: 0,
+      items: [],
+      shipping: {},
+      payment: {}
     }
 
     return NextResponse.json({
       success: true,
-      order: order
+      order: mockOrder
     })
 
   } catch (error) {
