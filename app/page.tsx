@@ -33,6 +33,12 @@ export default function Home() {
       <Header onCartClick={() => setIsCartOpen(true)} cartItemCount={cartItemCount} />
       <main>
         <Hero />
+        
+        {/* Test Div */}
+        <div className="py-8 bg-red-100 text-center">
+          <h2 className="text-2xl font-bold text-red-600">TEST: Bu bölüm görünüyor mu?</h2>
+        </div>
+        
         <Categories />
         <FeaturedProducts />
         <Newsletter />
