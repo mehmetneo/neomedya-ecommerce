@@ -1,0 +1,143 @@
+[
+  {
+    "id": "ORD-1753760123456",
+    "items": [
+      {
+        "id": "1",
+        "name": "Erkek T-Shirt",
+        "price": 89.99,
+        "image": "/images/tshirt.jpg",
+        "size": "L",
+        "color": "Mavi",
+        "quantity": 2
+      }
+    ],
+    "shipping": {
+      "name": "Ahmet Yılmaz",
+      "email": "ahmet@example.com",
+      "phone": "0555 123 45 67",
+      "address": "Atatürk Caddesi No:123, İstanbul 34000"
+    },
+    "payment": {
+      "method": "bank-transfer",
+      "bankInfo": {
+        "bankName": "Ziraat Bankası",
+        "accountName": "Neomedya E-ticaret",
+        "iban": "TR12 0001 0002 3456 7890 1234 56",
+        "swift": "TCZBTR2A"
+      },
+      "total": 179.98,
+      "reference": "ORD-1753760123456"
+    },
+    "total": 179.98,
+    "date": "2024-07-29T12:34:56.789Z",
+    "status": "processing"
+  },
+  {
+    "id": "ORD-1753760234567",
+    "items": [
+      {
+        "id": "2",
+        "name": "Kadın Elbise",
+        "price": 149.99,
+        "image": "/images/dress.jpg",
+        "size": "M",
+        "color": "Kırmızı",
+        "quantity": 1
+      }
+    ],
+    "shipping": {
+      "name": "Fatma Demir",
+      "email": "fatma@example.com",
+      "phone": "0532 987 65 43",
+      "address": "Cumhuriyet Sokak No:45, Ankara 06000"
+    },
+    "payment": {
+      "method": "cash-on-delivery",
+      "total": 149.99,
+      "reference": "ORD-1753760234567"
+    },
+    "total": 149.99,
+    "date": "2024-07-29T13:45:67.890Z",
+    "status": "pending"
+  },
+  {
+    "id": "ORD-1753760345678",
+    "items": [
+      {
+        "id": "3",
+        "name": "Çocuk Ayakkabı",
+        "price": 79.99,
+        "image": "/images/shoes.jpg",
+        "size": "28",
+        "color": "Siyah",
+        "quantity": 1
+      },
+      {
+        "id": "4",
+        "name": "Spor Çanta",
+        "price": 45.99,
+        "image": "/images/bag.jpg",
+        "size": "M",
+        "color": "Gri",
+        "quantity": 1
+      }
+    ],
+    "shipping": {
+      "name": "Mehmet Kaya",
+      "email": "mehmet@example.com",
+      "phone": "0544 555 66 77",
+      "address": "İnönü Mahallesi No:78, İzmir 35000"
+    },
+    "payment": {
+      "method": "bank-transfer",
+      "bankInfo": {
+        "bankName": "Garanti BBVA",
+        "accountName": "Neomedya E-ticaret",
+        "iban": "TR98 0006 2000 1234 5678 9012 34",
+        "swift": "TGBATRIS"
+      },
+      "total": 125.98,
+      "reference": "ORD-1753760345678"
+    },
+    "total": 125.98,
+    "date": "2024-07-29T14:56:78.901Z",
+    "status": "processing",
+    "updatedAt": "2025-07-29T03:58:29.078Z"
+  },
+  {
+    "id": "ORD-1753761493040",
+    "items": [
+      {
+        "id": "1",
+        "name": "Premium Pamuklu T-Shirt",
+        "price": 89.99,
+        "image": "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=500&h=600&fit=crop",
+        "size": "M",
+        "color": "Beyaz",
+        "quantity": 2
+      }
+    ],
+    "shipping": {
+      "name": "Test Kullanıcı",
+      "email": "test@neomedya.com",
+      "phone": "05012429791",
+      "address": "Hürriyet mahallesi yaprak sokak no 8/10 kat 5 iç kapı 11 Esenyurt İstanbul, ESENYURT "
+    },
+    "payment": {
+      "method": "bank-transfer",
+      "bankInfo": {
+        "bankName": "Garanti BBVA",
+        "accountName": "Neomedya E-ticaret Ltd. Şti.",
+        "iban": "TR12 0006 2000 0000 0000 0000 00",
+        "swift": "TGBATRIS"
+      },
+      "total": 179.98,
+      "reference": "ORD-1753761493040"
+    },
+    "total": 179.98,
+    "date": "2025-07-29T03:58:13.040Z",
+    "status": "processing",
+    "updatedAt": "2025-07-29T03:59:01.462Z"
+  }
+]

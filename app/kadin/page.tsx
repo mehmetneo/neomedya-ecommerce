@@ -1,156 +1,310 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Header from '@/components/Header'
 import Cart from '@/components/Cart'
+
+interface CartItem {
+  id: string
+  name: string
+  price: number
+  image: string
+  size: string
+  color: string
+  quantity: number
+}
 
 const kadinUrunleri = [
   {
     id: '1',
-    name: 'Kadın Elbise - Yaz Koleksiyonu',
-    price: 249.99,
-    originalPrice: 349.99,
+    name: 'Elegant Kadın Elbise',
+    price: 299.99,
+    originalPrice: 399.99,
     image: 'https://images.unsplash.com/photo-1515372039744-b8f02a3ae446?w=500&h=600&fit=crop',
+    images: [
+      'https://images.unsplash.com/photo-1515372039744-b8f02a3ae446?w=500&h=600&fit=crop',
+      'https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?w=500&h=600&fit=crop',
+      'https://images.unsplash.com/photo-1434389677669-e08b4cac3105?w=500&h=600&fit=crop',
+      'https://images.unsplash.com/photo-1515372039744-b8f02a3ae446?w=500&h=600&fit=crop'
+    ],
     rating: 4.9,
     reviews: 156,
-    isNew: true,
-    isSale: true
+    isSale: true,
+    category: 'Elbise'
   },
   {
     id: '2',
-    name: 'Oversize Sweatshirt',
-    price: 159.99,
-    image: 'https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=500&h=600&fit=crop',
+    name: 'Bluz',
+    price: 149.99,
+    image: 'https://images.unsplash.com/photo-1434389677669-e08b4cac3105?w=500&h=600&fit=crop',
+    images: [
+      'https://images.unsplash.com/photo-1434389677669-e08b4cac3105?w=500&h=600&fit=crop',
+      'https://images.unsplash.com/photo-1515372039744-b8f02a3ae446?w=500&h=600&fit=crop',
+      'https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?w=500&h=600&fit=crop',
+      'https://images.unsplash.com/photo-1434389677669-e08b4cac3105?w=500&h=600&fit=crop'
+    ],
     rating: 4.7,
-    reviews: 203
+    reviews: 89,
+    category: 'Bluz'
   },
   {
     id: '3',
-    name: 'Kadın Bluz',
-    price: 129.99,
-    image: 'https://images.unsplash.com/photo-1434389677669-e08b4cac3105?w=500&h=600&fit=crop',
-    rating: 4.6,
-    reviews: 89
+    name: 'Kot Pantolon',
+    price: 199.99,
+    originalPrice: 249.99,
+    image: 'https://images.unsplash.com/photo-1542272604-787c3835535d?w=500&h=600&fit=crop',
+    images: [
+      'https://images.unsplash.com/photo-1542272604-787c3835535d?w=500&h=600&fit=crop',
+      'https://images.unsplash.com/photo-1473966968600-fa117b5f2b39?w=500&h=600&fit=crop',
+      'https://images.unsplash.com/photo-1544966503-7cc5ac882d5f?w=500&h=600&fit=crop',
+      'https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?w=500&h=600&fit=crop'
+    ],
+    rating: 4.8,
+    reviews: 234,
+    isSale: true,
+    category: 'Pantolon'
   },
   {
     id: '4',
-    name: 'Kadın Ayakkabı',
-    price: 199.99,
+    name: 'Etek',
+    price: 179.99,
+    image: 'https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?w=500&h=600&fit=crop',
+    images: [
+      'https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?w=500&h=600&fit=crop',
+      'https://images.unsplash.com/photo-1515372039744-b8f02a3ae446?w=500&h=600&fit=crop',
+      'https://images.unsplash.com/photo-1434389677669-e08b4cac3105?w=500&h=600&fit=crop',
+      'https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?w=500&h=600&fit=crop'
+    ],
+    rating: 4.6,
+    reviews: 67,
+    category: 'Etek'
+  },
+  {
+    id: '5',
+    name: 'Spor Ayakkabı',
+    price: 249.99,
     originalPrice: 299.99,
-    image: 'https://images.unsplash.com/photo-1543163521-1bf539c55dd2?w=500&h=600&fit=crop',
-    rating: 4.8,
-    reviews: 145,
-    isSale: true
+    image: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=500&h=600&fit=crop',
+    images: [
+      'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=500&h=600&fit=crop',
+      'https://images.unsplash.com/photo-1549298916-b41d501d3772?w=500&h=600&fit=crop',
+      'https://images.unsplash.com/photo-1549298916-b41d501d3772?w=500&h=600&fit=crop',
+      'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=500&h=600&fit=crop'
+    ],
+    rating: 4.9,
+    reviews: 189,
+    isSale: true,
+    category: 'Ayakkabı'
+  },
+  {
+    id: '6',
+    name: 'Çanta',
+    price: 399.99,
+    image: 'https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=500&h=600&fit=crop',
+    images: [
+      'https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=500&h=600&fit=crop',
+      'https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=500&h=600&fit=crop',
+      'https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=500&h=600&fit=crop',
+      'https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=500&h=600&fit=crop'
+    ],
+    rating: 4.7,
+    reviews: 123,
+    category: 'Çanta'
   }
 ]
 
 export default function KadinPage() {
   const [isCartOpen, setIsCartOpen] = useState(false)
-  const [cartItemCount] = useState(1)
+  const [cartItemCount, setCartItemCount] = useState(0)
   const [selectedProduct, setSelectedProduct] = useState<any>(null)
+  const [selectedSize, setSelectedSize] = useState('M')
+  const [selectedColor, setSelectedColor] = useState('Siyah')
+  const [products, setProducts] = useState(kadinUrunleri)
+  const [showProductModal, setShowProductModal] = useState(false)
+  const [currentImageIndex, setCurrentImageIndex] = useState(0)
 
-  const handleAddToCart = (product: any) => {
-    alert(`${product.name} sepete eklendi!`)
+  useEffect(() => {
+    // Sepet sayısını localStorage'dan al
+    const savedCart = localStorage.getItem('cart')
+    if (savedCart) {
+      const cartItems = JSON.parse(savedCart)
+      const totalItems = cartItems.reduce((sum: number, item: CartItem) => sum + item.quantity, 0)
+      setCartItemCount(totalItems)
+    }
+
+    // Admin panelinden gelen ürün güncellemelerini dinle
+    const handleProductsUpdated = (event: CustomEvent) => {
+      const updatedProducts = event.detail
+      // Sadece kadın kategorisindeki ürünleri filtrele
+      const kadinProducts = updatedProducts.filter((product: any) => product.category === 'Kadın')
+      setProducts(kadinProducts.length > 0 ? kadinProducts : kadinUrunleri)
+    }
+
+    // localStorage'dan ürünleri yükle
+    const savedProducts = localStorage.getItem('products')
+    if (savedProducts) {
+      const allProducts = JSON.parse(savedProducts)
+      const kadinProducts = allProducts.filter((product: any) => product.category === 'Kadın')
+      if (kadinProducts.length > 0) {
+        setProducts(kadinProducts)
+      }
+    }
+
+    window.addEventListener('productsUpdated', handleProductsUpdated as EventListener)
+
+    return () => {
+      window.removeEventListener('productsUpdated', handleProductsUpdated as EventListener)
+    }
+  }, [])
+
+  const updateCartCount = () => {
+    const savedCart = localStorage.getItem('cart')
+    if (savedCart) {
+      const cartItems = JSON.parse(savedCart)
+      const totalItems = cartItems.reduce((sum: number, item: CartItem) => sum + item.quantity, 0)
+      setCartItemCount(totalItems)
+    }
+  }
+
+  const handleAddToCart = (product: any, size: string = 'M', color: string = 'Siyah') => {
+    const cartItem = {
+      id: product.id,
+      name: product.name,
+      price: product.price,
+      image: product.image,
+      size,
+      color,
+      quantity: 1
+    }
+
+    // Mevcut sepeti al
+    const savedCart = localStorage.getItem('cart')
+    let cartItems: CartItem[] = savedCart ? JSON.parse(savedCart) : []
+
+    // Aynı ürün var mı kontrol et
+    const existingItemIndex = cartItems.findIndex(
+      item => item.id === cartItem.id && item.size === cartItem.size && item.color === cartItem.color
+    )
+
+    if (existingItemIndex > -1) {
+      cartItems[existingItemIndex].quantity += 1
+    } else {
+      cartItems.push(cartItem)
+    }
+
+    // Sepeti localStorage'a kaydet
+    localStorage.setItem('cart', JSON.stringify(cartItems))
+    updateCartCount()
+    setSelectedProduct(null)
   }
 
   const handleProductClick = (product: any) => {
     setSelectedProduct(product)
   }
 
+  // Ürün detay modalı fonksiyonları
+  const openProductModal = (product: any) => {
+    setSelectedProduct(product)
+    setShowProductModal(true)
+    setCurrentImageIndex(0)
+  }
+
+  const closeProductModal = () => {
+    setShowProductModal(false)
+    setSelectedProduct(null)
+    setCurrentImageIndex(0)
+  }
+
+  const nextImage = () => {
+    if (selectedProduct && selectedProduct.images) {
+      setCurrentImageIndex((prev) => 
+        prev === selectedProduct.images.length - 1 ? 0 : prev + 1
+      )
+    }
+  }
+
+  const prevImage = () => {
+    if (selectedProduct && selectedProduct.images) {
+      setCurrentImageIndex((prev) => 
+        prev === 0 ? selectedProduct.images.length - 1 : prev - 1
+      )
+    }
+  }
+
+  const selectImage = (index: number) => {
+    setCurrentImageIndex(index)
+  }
+
   return (
-    <main className="min-h-screen">
+    <div className="min-h-screen bg-gray-50">
       <Header onCartClick={() => setIsCartOpen(true)} cartItemCount={cartItemCount} />
       
-      {/* Hero Section */}
-      <section className="bg-gradient-to-r from-pink-500 to-purple-600 text-white py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h1 className="text-4xl lg:text-6xl font-bold mb-6">
-            Kadın Koleksiyonu
-          </h1>
-          <p className="text-xl mb-8">
-            Şık ve modern kadın giyim ürünleri
-          </p>
-          <div className="flex justify-center space-x-4">
-            <button className="bg-white text-pink-600 px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors">
-              Tüm Ürünler
-            </button>
-            <button className="border-2 border-white text-white px-8 py-3 rounded-lg font-semibold hover:bg-white hover:text-pink-600 transition-colors">
-              Yeni Gelenler
-            </button>
+      <div className="container mx-auto px-4 py-8">
+        <div className="max-w-7xl mx-auto">
+          {/* Başlık */}
+          <div className="mb-8">
+            <h1 className="text-3xl font-bold text-gray-900 mb-2">Kadın Koleksiyonu</h1>
+            <p className="text-gray-600">En trend kadın kıyafetleri ve aksesuarları</p>
           </div>
-        </div>
-      </section>
 
-      {/* Products Grid */}
-      <section className="py-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {kadinUrunleri.map((product) => (
-              <div key={product.id} className="card overflow-hidden cursor-pointer" onClick={() => handleProductClick(product)}>
+          {/* Ürün Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            {products.map((product) => (
+              <div
+                key={product.id}
+                className="bg-white rounded-lg shadow-sm hover:shadow-lg transition-shadow duration-300 overflow-hidden"
+              >
                 <div className="relative">
                   <img
                     src={product.image}
                     alt={product.name}
-                    className="w-full h-80 object-cover hover:scale-105 transition-transform duration-300"
+                    className="w-full h-64 object-cover cursor-pointer hover:scale-105 transition-transform duration-300"
+                    onClick={() => openProductModal(product)}
                   />
-                  
-                  <div className="absolute top-4 left-4 flex flex-col gap-2">
-                    {product.isNew && (
-                      <div className="bg-green-500 text-white px-2 py-1 rounded-full text-sm font-medium">
-                        Yeni
-                      </div>
-                    )}
-                    {product.isSale && (
-                      <div className="bg-red-500 text-white px-2 py-1 rounded-full text-sm font-medium">
-                        İndirim
-                      </div>
-                    )}
-                  </div>
-                  
-                  <div className="absolute top-4 right-4 flex flex-col gap-2 opacity-0 hover:opacity-100 transition-opacity">
-                    <button className="w-10 h-10 bg-white rounded-full shadow-lg flex items-center justify-center hover:bg-pink-500 hover:text-white transition-colors">
-                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-                      </svg>
-                    </button>
+                  {product.isSale && (
+                    <div className="absolute top-2 left-2 bg-red-500 text-white px-2 py-1 rounded text-sm font-medium">
+                      İndirim
+                    </div>
+                  )}
+                  <div className="absolute top-2 right-2 bg-white rounded-full p-1">
+                    <svg className="w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
+                      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                    </svg>
                   </div>
                 </div>
-
-                <div className="p-6">
-                  <h3 className="font-semibold text-secondary-900 mb-2">
-                    {product.name}
-                  </h3>
-                  
+                
+                <div className="p-4">
+                  <h3 className="text-lg font-semibold text-gray-900 mb-2">{product.name}</h3>
                   <div className="flex items-center mb-2">
-                    <div className="flex text-yellow-400">
-                      {[...Array(5)].map((_, i) => (
-                        <svg key={i} className="w-4 h-4" fill={i < Math.floor(product.rating) ? "currentColor" : "none"} stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" />
-                        </svg>
-                      ))}
+                    <div className="flex items-center">
+                      <span className="text-yellow-400">★</span>
+                      <span className="text-sm text-gray-600 ml-1">{product.rating}</span>
+                      <span className="text-xs text-gray-400 ml-1">({product.reviews})</span>
                     </div>
-                    <span className="text-sm text-secondary-600 ml-2">({product.reviews})</span>
                   </div>
-
+                  
                   <div className="flex items-center justify-between mb-4">
-                    <div className="flex items-center gap-2">
-                      {product.originalPrice && (
-                        <span className="text-sm text-secondary-400 line-through">
-                          ₺{product.originalPrice}
+                    <div>
+                      {product.isSale ? (
+                        <div>
+                          <span className="text-lg font-bold text-gray-900">
+                            {product.price.toLocaleString('tr-TR', { style: 'currency', currency: 'TRY' })}
+                          </span>
+                          <span className="text-sm text-gray-500 line-through ml-2">
+                            {product.originalPrice?.toLocaleString('tr-TR', { style: 'currency', currency: 'TRY' })}
+                          </span>
+                        </div>
+                      ) : (
+                        <span className="text-lg font-bold text-gray-900">
+                          {product.price.toLocaleString('tr-TR', { style: 'currency', currency: 'TRY' })}
                         </span>
                       )}
-                      <span className="text-lg font-bold text-primary-600">
-                        ₺{product.price}
-                      </span>
                     </div>
                   </div>
-
+                  
                   <button
-                    onClick={(e) => {
-                      e.stopPropagation()
-                      handleAddToCart(product)
-                    }}
-                    className="w-full bg-primary-500 text-white py-3 rounded-lg font-medium hover:bg-primary-600 transition-colors"
+                    onClick={() => handleAddToCart(product)}
+                    className="w-full bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors duration-200"
                   >
                     Sepete Ekle
                   </button>
@@ -159,99 +313,188 @@ export default function KadinPage() {
             ))}
           </div>
         </div>
-      </section>
+      </div>
 
-      {/* Product Modal */}
-      {selectedProduct && (
-        <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
-          <div className="bg-white rounded-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+      {/* Ürün Detay Modal */}
+      {showProductModal && selectedProduct && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-lg max-w-4xl w-full max-h-[90vh] overflow-y-auto">
             <div className="p-6">
               <div className="flex justify-between items-start mb-4">
-                <h2 className="text-2xl font-bold text-secondary-900">
-                  {selectedProduct.name}
-                </h2>
+                <h2 className="text-2xl font-bold text-gray-900">{selectedProduct.name}</h2>
                 <button
-                  onClick={() => setSelectedProduct(null)}
-                  className="text-secondary-400 hover:text-secondary-600"
+                  onClick={closeProductModal}
+                  className="text-gray-400 hover:text-gray-600 text-2xl"
                 >
-                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                  </svg>
+                  ×
                 </button>
               </div>
-              
-              <div className="grid md:grid-cols-2 gap-6">
-                <div>
-                  <img
-                    src={selectedProduct.image}
-                    alt={selectedProduct.name}
-                    className="w-full h-96 object-cover rounded-lg"
-                  />
-                </div>
-                
-                <div>
-                  <div className="flex items-center mb-4">
-                    <div className="flex text-yellow-400">
-                      {[...Array(5)].map((_, i) => (
-                        <svg key={i} className="w-5 h-5" fill={i < Math.floor(selectedProduct.rating) ? "currentColor" : "none"} stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" />
-                        </svg>
+
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                {/* Fotoğraf Bölümü */}
+                <div className="space-y-4">
+                  <div className="relative">
+                    <img
+                      src={selectedProduct.images ? selectedProduct.images[currentImageIndex] : selectedProduct.image}
+                      alt={selectedProduct.name}
+                      className="w-full h-96 object-cover rounded-lg"
+                    />
+                    {selectedProduct.images && selectedProduct.images.length > 1 && (
+                      <>
+                        <button
+                          onClick={prevImage}
+                          className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-white bg-opacity-80 hover:bg-opacity-100 rounded-full p-2 shadow-lg"
+                        >
+                          <svg className="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                          </svg>
+                        </button>
+                        <button
+                          onClick={nextImage}
+                          className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-white bg-opacity-80 hover:bg-opacity-100 rounded-full p-2 shadow-lg"
+                        >
+                          <svg className="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                          </svg>
+                        </button>
+                      </>
+                    )}
+                  </div>
+
+                  {/* Küçük Fotoğraflar */}
+                  {selectedProduct.images && selectedProduct.images.length > 1 && (
+                    <div className="flex space-x-2">
+                      {selectedProduct.images.map((image: string, index: number) => (
+                        <div
+                          key={index}
+                          className={`w-20 h-20 rounded-lg overflow-hidden cursor-pointer border-2 ${
+                            currentImageIndex === index ? 'border-blue-500' : 'border-gray-200 hover:border-blue-300'
+                          }`}
+                          onClick={() => selectImage(index)}
+                        >
+                          <img
+                            src={image}
+                            alt={`${selectedProduct.name} - Fotoğraf ${index + 1}`}
+                            className="w-full h-full object-cover"
+                          />
+                        </div>
                       ))}
                     </div>
-                    <span className="text-sm text-secondary-600 ml-2">({selectedProduct.reviews} değerlendirme)</span>
-                  </div>
-                  
-                  <div className="flex items-center gap-2 mb-4">
-                    {selectedProduct.originalPrice && (
-                      <span className="text-lg text-secondary-400 line-through">
-                        ₺{selectedProduct.originalPrice}
+                  )}
+                </div>
+
+                {/* Ürün Detayları */}
+                <div className="space-y-6">
+                  {/* Fiyat */}
+                  <div>
+                    {selectedProduct.isSale ? (
+                      <div className="space-y-2">
+                        <span className="text-3xl font-bold text-gray-900">
+                          {selectedProduct.price.toLocaleString('tr-TR', { style: 'currency', currency: 'TRY' })}
+                        </span>
+                        <span className="text-lg text-gray-500 line-through">
+                          {selectedProduct.originalPrice?.toLocaleString('tr-TR', { style: 'currency', currency: 'TRY' })}
+                        </span>
+                        <div className="bg-red-100 text-red-800 px-3 py-1 rounded-full text-sm font-medium inline-block">
+                          İndirimli
+                        </div>
+                      </div>
+                    ) : (
+                      <span className="text-3xl font-bold text-gray-900">
+                        {selectedProduct.price.toLocaleString('tr-TR', { style: 'currency', currency: 'TRY' })}
                       </span>
                     )}
-                    <span className="text-3xl font-bold text-primary-600">
-                      ₺{selectedProduct.price}
-                    </span>
                   </div>
-                  
+
+                  {/* Değerlendirme */}
+                  <div className="flex items-center space-x-2">
+                    <div className="flex items-center">
+                      <span className="text-yellow-400 text-lg">★</span>
+                      <span className="text-lg text-gray-600 ml-1">{selectedProduct.rating}</span>
+                      <span className="text-gray-400 ml-1">({selectedProduct.reviews} değerlendirme)</span>
+                    </div>
+                  </div>
+
+                  {/* Ürün Özellikleri */}
+                  <div className="space-y-4">
+                    <h3 className="text-lg font-semibold text-gray-900">Ürün Özellikleri</h3>
+                    <div className="space-y-2">
+                      <div className="flex justify-between">
+                        <span className="text-gray-600">Kategori:</span>
+                        <span className="text-gray-900">{selectedProduct.category}</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span className="text-gray-600">Materyal:</span>
+                        <span className="text-gray-900">%100 Pamuk</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span className="text-gray-600">Bakım:</span>
+                        <span className="text-gray-900">Makinede yıkama</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span className="text-gray-600">Renk:</span>
+                        <span className="text-gray-900">Çoklu renk seçeneği</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Beden ve Renk Seçimi */}
                   <div className="space-y-4">
                     <div>
-                      <h4 className="font-semibold mb-2">Boyut</h4>
-                      <div className="flex gap-2">
+                      <label className="block text-sm font-medium text-gray-700 mb-2">Beden</label>
+                      <div className="flex space-x-2">
                         {['XS', 'S', 'M', 'L', 'XL'].map((size) => (
-                          <button key={size} className="px-4 py-2 border border-secondary-200 rounded-lg hover:border-primary-500 hover:bg-primary-50 transition-colors">
+                          <button
+                            key={size}
+                            onClick={() => setSelectedSize(size)}
+                            className={`px-3 py-2 border rounded-lg text-sm font-medium ${
+                              selectedSize === size
+                                ? 'border-blue-500 bg-blue-50 text-blue-700'
+                                : 'border-gray-300 text-gray-700 hover:border-gray-400'
+                            }`}
+                          >
                             {size}
                           </button>
                         ))}
                       </div>
                     </div>
-                    
+
                     <div>
-                      <h4 className="font-semibold mb-2">Renk</h4>
-                      <div className="flex gap-2">
-                        {['Beyaz', 'Siyah', 'Pembe', 'Mavi'].map((color) => (
-                          <button key={color} className="px-4 py-2 border border-secondary-200 rounded-lg hover:border-primary-500 hover:bg-primary-50 transition-colors">
+                      <label className="block text-sm font-medium text-gray-700 mb-2">Renk</label>
+                      <div className="flex space-x-2">
+                        {['Siyah', 'Beyaz', 'Kırmızı', 'Mavi'].map((color) => (
+                          <button
+                            key={color}
+                            onClick={() => setSelectedColor(color)}
+                            className={`px-3 py-2 border rounded-lg text-sm font-medium ${
+                              selectedColor === color
+                                ? 'border-blue-500 bg-blue-50 text-blue-700'
+                                : 'border-gray-300 text-gray-700 hover:border-gray-400'
+                            }`}
+                          >
                             {color}
                           </button>
                         ))}
                       </div>
                     </div>
-                    
-                    <div className="flex gap-4">
-                      <button className="flex-1 bg-primary-500 text-white py-3 rounded-lg font-medium hover:bg-primary-600 transition-colors">
-                        Sepete Ekle
-                      </button>
-                      <button className="flex-1 border border-primary-500 text-primary-500 py-3 rounded-lg font-medium hover:bg-primary-50 transition-colors">
-                        Favorilere Ekle
-                      </button>
-                    </div>
                   </div>
+
+                  {/* Sepete Ekle Butonu */}
+                  <button
+                    onClick={() => handleAddToCart(selectedProduct, selectedSize, selectedColor)}
+                    className="w-full bg-blue-600 text-white py-3 px-6 rounded-lg hover:bg-blue-700 transition-colors duration-200 text-lg font-medium"
+                  >
+                    Sepete Ekle
+                  </button>
                 </div>
               </div>
             </div>
           </div>
         </div>
       )}
-      
+
+      {/* Sepet */}
       <Cart isOpen={isCartOpen} onClose={() => setIsCartOpen(false)} />
-    </main>
+    </div>
   )
 } 

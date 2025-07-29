@@ -1,284 +1,389 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import { useRouter } from 'next/navigation'
+import Link from 'next/link'
 import Header from '@/components/Header'
+
+interface User {
+  id: string
+  name: string
+  email: string
+  password: string
+  phone: string
+  address: string
+  city: string
+  postalCode: string
+  birthDate: string
+  gender: string
+  isAdmin: boolean
+  createdAt: string
+}
 
 export default function ProfilimPage() {
   const [activeTab, setActiveTab] = useState('profile')
   const [isLoading, setIsLoading] = useState(false)
+  const [success, setSuccess] = useState('')
+  const [error, setError] = useState('')
+  const [user, setUser] = useState<User | null>(null)
+  const [currentUser, setCurrentUser] = useState<any>(null)
+  const router = useRouter()
 
-  const userInfo = {
-    firstName: 'Ahmet',
-    lastName: 'Yılmaz',
-    email: 'ahmet@email.com',
-    phone: '0555 123 45 67',
-    address: 'İstanbul, Türkiye',
-    birthDate: '1990-01-01'
+  useEffect(() => {
+    // Kullanıcı giriş kontrolü
+    const userData = localStorage.getItem('user')
+    if (!userData) {
+      router.push('/giris')
+      return
+    }
+
+    setCurrentUser(JSON.parse(userData))
+
+    // Kullanıcı bilgilerini al
+    const users = JSON.parse(localStorage.getItem('users') || '[]')
+    const testUsers = [
+      { 
+        id: 'admin_001',
+        name: 'Admin Kullanıcı',
+        email: 'admin@neomedya.com', 
+        password: 'admin123',
+        phone: '0555 123 45 67',
+        address: 'Test Adres',
+        city: 'İstanbul',
+        postalCode: '34000',
+        birthDate: '1990-01-01',
+        gender: 'erkek',
+        isAdmin: true,
+        createdAt: '2024-01-01T00:00:00.000Z'
+      },
+      { 
+        id: 'test_001',
+        name: 'Test Kullanıcı',
+        email: 'test@neomedya.com', 
+        password: 'test123',
+        phone: '0555 987 65 43',
+        address: 'Test Adres 2',
+        city: 'Ankara',
+        postalCode: '06000',
+        birthDate: '1995-05-15',
+        gender: 'kadin',
+        isAdmin: false,
+        createdAt: '2024-01-01T00:00:00.000Z'
+      },
+      { 
+        id: 'demo_001',
+        name: 'Demo Kullanıcı',
+        email: 'demo@neomedya.com', 
+        password: 'demo123',
+        phone: '0555 555 55 55',
+        address: 'Demo Adres',
+        city: 'İzmir',
+        postalCode: '35000',
+        birthDate: '1988-12-25',
+        gender: 'erkek',
+        isAdmin: false,
+        createdAt: '2024-01-01T00:00:00.000Z'
+      }
+    ]
+
+    // Test kullanıcılarından veya kayıtlı kullanıcılardan bul
+    let foundUser = testUsers.find(u => u.id === JSON.parse(userData).id)
+    if (!foundUser) {
+      foundUser = users.find((u: User) => u.id === JSON.parse(userData).id)
+    }
+
+    setUser(foundUser || null)
+  }, [router])
+
+  const handleSave = async () => {
+    setIsLoading(true)
+    setError('')
+    setSuccess('')
+
+    try {
+      // Kullanıcı bilgilerini güncelle
+      const users = JSON.parse(localStorage.getItem('users') || '[]')
+      const updatedUsers = users.map((u: User) => 
+        u.id === user?.id ? { ...u, ...user } : u
+      )
+      localStorage.setItem('users', JSON.stringify(updatedUsers))
+
+      setSuccess('Profil bilgileriniz başarıyla güncellendi!')
+      
+      setTimeout(() => {
+        setSuccess('')
+      }, 3000)
+    } catch (error) {
+      setError('Güncelleme sırasında bir hata oluştu.')
+    }
+
+    setIsLoading(false)
   }
 
-  const orders = [
-    { id: '#1234', date: '2024-01-15', total: '₺299.99', status: 'Tamamlandı' },
-    { id: '#1235', date: '2024-01-10', total: '₺199.99', status: 'Kargoda' },
-    { id: '#1236', date: '2024-01-05', total: '₺599.99', status: 'Tamamlandı' }
-  ]
+  const getGenderText = (gender: string) => {
+    switch (gender) {
+      case 'erkek': return 'Erkek'
+      case 'kadin': return 'Kadın'
+      case 'diger': return 'Diğer'
+      default: return gender
+    }
+  }
 
-  const handleSave = () => {
-    setIsLoading(true)
-    setTimeout(() => {
-      alert('Profil bilgileri güncellendi!')
-      setIsLoading(false)
-    }, 1000)
+  const formatDate = (dateString: string) => {
+    return new Date(dateString).toLocaleDateString('tr-TR', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric'
+    })
+  }
+
+  if (!user) {
+    return (
+      <div className="min-h-screen bg-gray-50">
+        <Header onCartClick={() => {}} cartItemCount={0} />
+        <div className="container mx-auto px-4 py-8">
+          <div className="flex justify-center items-center h-64">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+          </div>
+        </div>
+      </div>
+    )
   }
 
   return (
-    <main className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50">
       <Header onCartClick={() => {}} cartItemCount={0} />
       
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900">Profilim</h1>
-          <p className="text-gray-600">Hesap bilgilerinizi yönetin</p>
-        </div>
-
-        {/* Tabs */}
-        <div className="border-b border-gray-200 mb-8">
-          <nav className="-mb-px flex space-x-8">
-            {[
-              { id: 'profile', name: 'Profil Bilgileri', icon: '👤' },
-              { id: 'orders', name: 'Siparişlerim', icon: '📦' },
-              { id: 'addresses', name: 'Adreslerim', icon: '📍' },
-              { id: 'security', name: 'Güvenlik', icon: '🔒' }
-            ].map((tab) => (
-              <button
-                key={tab.id}
-                onClick={() => setActiveTab(tab.id)}
-                className={`py-2 px-1 border-b-2 font-medium text-sm ${
-                  activeTab === tab.id
-                    ? 'border-primary-500 text-primary-600'
-                    : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
-                }`}
-              >
-                {tab.icon} {tab.name}
-              </button>
-            ))}
-          </nav>
-        </div>
-
-        {/* Profile Tab */}
-        {activeTab === 'profile' && (
-          <div className="bg-white rounded-lg shadow p-6">
-            <h3 className="text-lg font-medium text-gray-900 mb-6">Kişisel Bilgiler</h3>
-            
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div>
-                <label className="block text-sm font-medium text-gray-700">Ad</label>
-                <input
-                  type="text"
-                  defaultValue={userInfo.firstName}
-                  className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-primary-500 focus:border-primary-500"
-                />
-              </div>
-              
-              <div>
-                <label className="block text-sm font-medium text-gray-700">Soyad</label>
-                <input
-                  type="text"
-                  defaultValue={userInfo.lastName}
-                  className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-primary-500 focus:border-primary-500"
-                />
-              </div>
-              
-              <div>
-                <label className="block text-sm font-medium text-gray-700">E-posta</label>
-                <input
-                  type="email"
-                  defaultValue={userInfo.email}
-                  className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-primary-500 focus:border-primary-500"
-                />
-              </div>
-              
-              <div>
-                <label className="block text-sm font-medium text-gray-700">Telefon</label>
-                <input
-                  type="tel"
-                  defaultValue={userInfo.phone}
-                  className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-primary-500 focus:border-primary-500"
-                />
-              </div>
-              
-              <div>
-                <label className="block text-sm font-medium text-gray-700">Doğum Tarihi</label>
-                <input
-                  type="date"
-                  defaultValue={userInfo.birthDate}
-                  className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-primary-500 focus:border-primary-500"
-                />
-              </div>
-              
-              <div className="md:col-span-2">
-                <label className="block text-sm font-medium text-gray-700">Adres</label>
-                <textarea
-                  rows={3}
-                  defaultValue={userInfo.address}
-                  className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-primary-500 focus:border-primary-500"
-                />
-              </div>
-            </div>
-            
-            <div className="mt-6">
-              <button
-                onClick={handleSave}
-                disabled={isLoading}
-                className="bg-primary-600 text-white px-4 py-2 rounded-md hover:bg-primary-700 disabled:opacity-50"
-              >
-                {isLoading ? 'Kaydediliyor...' : 'Değişiklikleri Kaydet'}
-              </button>
-            </div>
+      <div className="container mx-auto px-4 py-8">
+        <div className="max-w-4xl mx-auto">
+          {/* Başlık */}
+          <div className="mb-8">
+            <h1 className="text-3xl font-bold text-gray-900 mb-2">Profilim</h1>
+            <p className="text-gray-600">Hesap bilgilerinizi yönetin</p>
           </div>
-        )}
 
-        {/* Orders Tab */}
-        {activeTab === 'orders' && (
-          <div className="bg-white rounded-lg shadow">
-            <div className="px-6 py-4 border-b border-gray-200">
-              <h3 className="text-lg font-medium text-gray-900">Sipariş Geçmişi</h3>
-            </div>
-            <div className="overflow-x-auto">
-              <table className="min-w-full divide-y divide-gray-200">
-                <thead className="bg-gray-50">
-                  <tr>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Sipariş No</th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Tarih</th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Tutar</th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Durum</th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">İşlemler</th>
-                  </tr>
-                </thead>
-                <tbody className="bg-white divide-y divide-gray-200">
-                  {orders.map((order) => (
-                    <tr key={order.id}>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{order.id}</td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{order.date}</td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{order.total}</td>
-                      <td className="px-6 py-4 whitespace-nowrap">
-                        <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
-                          order.status === 'Tamamlandı' ? 'bg-green-100 text-green-800' :
-                          order.status === 'Kargoda' ? 'bg-blue-100 text-blue-800' :
-                          'bg-gray-100 text-gray-800'
-                        }`}>
-                          {order.status}
-                        </span>
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                        <button className="text-primary-600 hover:text-primary-900">Detay</button>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          </div>
-        )}
-
-        {/* Addresses Tab */}
-        {activeTab === 'addresses' && (
-          <div className="space-y-6">
-            <div className="flex justify-between items-center">
-              <h3 className="text-lg font-medium text-gray-900">Adreslerim</h3>
-              <button className="bg-primary-600 text-white px-4 py-2 rounded-md hover:bg-primary-700">
-                + Yeni Adres Ekle
-              </button>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div className="bg-white rounded-lg shadow p-6">
-                <div className="flex justify-between items-start mb-4">
-                  <h4 className="font-medium text-gray-900">Ev Adresi</h4>
-                  <span className="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-800">
-                    Varsayılan
-                  </span>
-                </div>
-                <p className="text-gray-600 mb-4">
-                  Atatürk Mahallesi, Cumhuriyet Caddesi No:123<br />
-                  Kadıköy/İstanbul
-                </p>
-                <div className="flex space-x-2">
-                  <button className="text-primary-600 hover:text-primary-900 text-sm">Düzenle</button>
-                  <button className="text-red-600 hover:text-red-900 text-sm">Sil</button>
-                </div>
-              </div>
-
-              <div className="bg-white rounded-lg shadow p-6">
-                <div className="flex justify-between items-start mb-4">
-                  <h4 className="font-medium text-gray-900">İş Adresi</h4>
-                </div>
-                <p className="text-gray-600 mb-4">
-                  Levent Mahallesi, Büyükdere Caddesi No:456<br />
-                  Beşiktaş/İstanbul
-                </p>
-                <div className="flex space-x-2">
-                  <button className="text-primary-600 hover:text-primary-900 text-sm">Düzenle</button>
-                  <button className="text-red-600 hover:text-red-900 text-sm">Sil</button>
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
-
-        {/* Security Tab */}
-        {activeTab === 'security' && (
-          <div className="space-y-6">
-            <div className="bg-white rounded-lg shadow p-6">
-              <h3 className="text-lg font-medium text-gray-900 mb-6">Şifre Değiştir</h3>
-              
-              <div className="space-y-4">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700">Mevcut Şifre</label>
-                  <input
-                    type="password"
-                    className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-primary-500 focus:border-primary-500"
-                  />
-                </div>
-                
-                <div>
-                  <label className="block text-sm font-medium text-gray-700">Yeni Şifre</label>
-                  <input
-                    type="password"
-                    className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-primary-500 focus:border-primary-500"
-                  />
-                </div>
-                
-                <div>
-                  <label className="block text-sm font-medium text-gray-700">Yeni Şifre Tekrar</label>
-                  <input
-                    type="password"
-                    className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-primary-500 focus:border-primary-500"
-                  />
-                </div>
-              </div>
-              
-              <div className="mt-6">
-                <button className="bg-primary-600 text-white px-4 py-2 rounded-md hover:bg-primary-700">
-                  Şifreyi Değiştir
+          {/* Tab Menüsü */}
+          <div className="bg-white rounded-lg shadow-sm border border-gray-200 mb-6">
+            <div className="border-b border-gray-200">
+              <nav className="flex space-x-8 px-6">
+                <button
+                  onClick={() => setActiveTab('profile')}
+                  className={`py-4 px-1 border-b-2 font-medium text-sm ${
+                    activeTab === 'profile'
+                      ? 'border-blue-500 text-blue-600'
+                      : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                  }`}
+                >
+                  Profil Bilgileri
                 </button>
-              </div>
+                <button
+                  onClick={() => setActiveTab('security')}
+                  className={`py-4 px-1 border-b-2 font-medium text-sm ${
+                    activeTab === 'security'
+                      ? 'border-blue-500 text-blue-600'
+                      : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                  }`}
+                >
+                  Güvenlik
+                </button>
+                <button
+                  onClick={() => setActiveTab('orders')}
+                  className={`py-4 px-1 border-b-2 font-medium text-sm ${
+                    activeTab === 'orders'
+                      ? 'border-blue-500 text-blue-600'
+                      : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                  }`}
+                >
+                  Siparişlerim
+                </button>
+              </nav>
             </div>
 
-            <div className="bg-white rounded-lg shadow p-6">
-              <h3 className="text-lg font-medium text-gray-900 mb-6">İki Faktörlü Doğrulama</h3>
-              
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm text-gray-600">Hesabınızı daha güvenli hale getirin</p>
+            {/* Tab İçeriği */}
+            <div className="p-6">
+              {activeTab === 'profile' && (
+                <div className="space-y-6">
+                  {/* Başarı ve Hata Mesajları */}
+                  {success && (
+                    <div className="bg-green-50 border border-green-200 rounded-lg p-4">
+                      <div className="flex">
+                        <svg className="h-5 w-5 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        <p className="ml-3 text-sm text-green-600">{success}</p>
+                      </div>
+                    </div>
+                  )}
+
+                  {error && (
+                    <div className="bg-red-50 border border-red-200 rounded-lg p-4">
+                      <div className="flex">
+                        <svg className="h-5 w-5 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        <p className="ml-3 text-sm text-red-600">{error}</p>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Profil Bilgileri */}
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        Ad Soyad
+                      </label>
+                      <input
+                        type="text"
+                        value={user.name}
+                        onChange={(e) => setUser({ ...user, name: e.target.value })}
+                        className="block w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        E-posta
+                      </label>
+                      <input
+                        type="email"
+                        value={user.email}
+                        onChange={(e) => setUser({ ...user, email: e.target.value })}
+                        className="block w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        Telefon
+                      </label>
+                      <input
+                        type="tel"
+                        value={user.phone}
+                        onChange={(e) => setUser({ ...user, phone: e.target.value })}
+                        className="block w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        Doğum Tarihi
+                      </label>
+                      <input
+                        type="date"
+                        value={user.birthDate}
+                        onChange={(e) => setUser({ ...user, birthDate: e.target.value })}
+                        className="block w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        Cinsiyet
+                      </label>
+                      <select
+                        value={user.gender}
+                        onChange={(e) => setUser({ ...user, gender: e.target.value })}
+                        className="block w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                      >
+                        <option value="erkek">Erkek</option>
+                        <option value="kadin">Kadın</option>
+                        <option value="diger">Diğer</option>
+                      </select>
+                    </div>
+
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        Şehir
+                      </label>
+                      <input
+                        type="text"
+                        value={user.city}
+                        onChange={(e) => setUser({ ...user, city: e.target.value })}
+                        className="block w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                      />
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Adres
+                    </label>
+                    <textarea
+                      rows={3}
+                      value={user.address}
+                      onChange={(e) => setUser({ ...user, address: e.target.value })}
+                      className="block w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                    />
+                  </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        Posta Kodu
+                      </label>
+                      <input
+                        type="text"
+                        value={user.postalCode}
+                        onChange={(e) => setUser({ ...user, postalCode: e.target.value })}
+                        className="block w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        Üyelik Tarihi
+                      </label>
+                      <input
+                        type="text"
+                        value={formatDate(user.createdAt)}
+                        disabled
+                        className="block w-full px-3 py-2 border border-gray-300 rounded-md bg-gray-50 text-gray-500"
+                      />
+                    </div>
+                  </div>
+
+                  {/* Kaydet Butonu */}
+                  <div className="flex justify-end">
+                    <button
+                      onClick={handleSave}
+                      disabled={isLoading}
+                      className="px-6 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                    >
+                      {isLoading ? 'Kaydediliyor...' : 'Değişiklikleri Kaydet'}
+                    </button>
+                  </div>
                 </div>
-                <button className="bg-gray-600 text-white px-4 py-2 rounded-md hover:bg-gray-700">
-                  Etkinleştir
-                </button>
-              </div>
+              )}
+
+              {activeTab === 'security' && (
+                <div className="space-y-6">
+                  <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
+                    <div className="flex">
+                      <svg className="h-5 w-5 text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.34 16.5c-.77.833.192 2.5 1.732 2.5z" />
+                      </svg>
+                      <p className="ml-3 text-sm text-yellow-700">
+                        Güvenlik ayarları yakında eklenecek.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {activeTab === 'orders' && (
+                <div className="text-center py-8">
+                  <Link
+                    href="/siparislerim"
+                    className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700"
+                  >
+                    Siparişlerimi Görüntüle
+                  </Link>
+                </div>
+              )}
             </div>
           </div>
-        )}
+        </div>
       </div>
-    </main>
+    </div>
   )
 } 

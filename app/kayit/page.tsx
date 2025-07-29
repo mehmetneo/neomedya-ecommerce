@@ -1,238 +1,404 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import Header from '@/components/Header'
 
+interface User {
+  id: string
+  name: string
+  email: string
+  password: string
+  phone: string
+  address: string
+  city: string
+  postalCode: string
+  birthDate: string
+  gender: string
+  isAdmin: boolean
+  createdAt: string
+}
+
 export default function KayitPage() {
   const [formData, setFormData] = useState({
-    firstName: '',
-    lastName: '',
+    name: '',
     email: '',
     password: '',
     confirmPassword: '',
     phone: '',
-    acceptTerms: false
+    address: '',
+    city: '',
+    postalCode: '',
+    birthDate: '',
+    gender: ''
   })
   const [isLoading, setIsLoading] = useState(false)
+  const [error, setError] = useState('')
+  const [success, setSuccess] = useState('')
+  const router = useRouter()
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value, type, checked } = e.target
-    setFormData(prev => ({
-      ...prev,
-      [name]: type === 'checkbox' ? checked : value
-    }))
+  useEffect(() => {
+    // Kullanıcı zaten giriş yapmışsa ana sayfaya yönlendir
+    const user = localStorage.getItem('user')
+    if (user) {
+      router.push('/')
+    }
+  }, [router])
+
+  const handleInputChange = (field: string, value: string) => {
+    setFormData(prev => ({ ...prev, [field]: value }))
+    setError('')
   }
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const validateForm = () => {
+    if (!formData.name.trim()) {
+      setError('Ad Soyad alanı zorunludur')
+      return false
+    }
+    if (!formData.email.trim()) {
+      setError('E-posta alanı zorunludur')
+      return false
+    }
+    if (!formData.email.includes('@')) {
+      setError('Geçerli bir e-posta adresi giriniz')
+      return false
+    }
+    if (formData.password.length < 6) {
+      setError('Şifre en az 6 karakter olmalıdır')
+      return false
+    }
+    if (formData.password !== formData.confirmPassword) {
+      setError('Şifreler eşleşmiyor')
+      return false
+    }
+    if (!formData.phone.trim()) {
+      setError('Telefon alanı zorunludur')
+      return false
+    }
+    if (!formData.address.trim()) {
+      setError('Adres alanı zorunludur')
+      return false
+    }
+    if (!formData.city.trim()) {
+      setError('Şehir alanı zorunludur')
+      return false
+    }
+    if (!formData.postalCode.trim()) {
+      setError('Posta kodu alanı zorunludur')
+      return false
+    }
+    if (!formData.birthDate) {
+      setError('Doğum tarihi zorunludur')
+      return false
+    }
+    if (!formData.gender) {
+      setError('Cinsiyet seçimi zorunludur')
+      return false
+    }
+    return true
+  }
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    setIsLoading(true)
     
-    // Simüle edilmiş kayıt işlemi
-    setTimeout(() => {
-      alert('Kayıt başarılı! Giriş yapabilirsiniz.')
-      setIsLoading(false)
-    }, 1000)
+    if (!validateForm()) {
+      return
+    }
+
+    setIsLoading(true)
+    setError('')
+
+    try {
+      // Mevcut kullanıcıları kontrol et
+      const existingUsers = JSON.parse(localStorage.getItem('users') || '[]')
+      
+      // E-posta kontrolü
+      const emailExists = existingUsers.find((user: User) => user.email === formData.email)
+      if (emailExists) {
+        setError('Bu e-posta adresi zaten kayıtlı!')
+        setIsLoading(false)
+        return
+      }
+
+      // Yeni kullanıcı oluştur
+      const newUser: User = {
+        id: `user_${Date.now()}`,
+        name: formData.name,
+        email: formData.email,
+        password: formData.password,
+        phone: formData.phone,
+        address: formData.address,
+        city: formData.city,
+        postalCode: formData.postalCode,
+        birthDate: formData.birthDate,
+        gender: formData.gender,
+        isAdmin: false,
+        createdAt: new Date().toISOString()
+      }
+
+      // Kullanıcıyı kaydet
+      existingUsers.push(newUser)
+      localStorage.setItem('users', JSON.stringify(existingUsers))
+
+      // Giriş yap
+      const userData = {
+        id: newUser.id,
+        name: newUser.name,
+        email: newUser.email,
+        isLoggedIn: true
+      }
+      localStorage.setItem('user', JSON.stringify(userData))
+
+      setSuccess('Kayıt başarılı! Ana sayfaya yönlendiriliyorsunuz...')
+      
+      setTimeout(() => {
+        router.push('/')
+      }, 2000)
+
+    } catch (error) {
+      setError('Kayıt sırasında bir hata oluştu. Lütfen tekrar deneyin.')
+    }
+
+    setIsLoading(false)
   }
 
   return (
-    <main className="min-h-screen bg-gradient-to-br from-primary-50 via-white to-secondary-50">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50">
       <Header onCartClick={() => {}} cartItemCount={0} />
       
-      <div className="flex items-center justify-center min-h-screen py-12 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-md w-full space-y-8">
-          <div>
-            <h2 className="mt-6 text-center text-3xl font-bold text-secondary-900">
-              Yeni Hesap Oluşturun
-            </h2>
-            <p className="mt-2 text-center text-sm text-secondary-600">
-              Veya{' '}
-              <Link href="/giris" className="font-medium text-primary-600 hover:text-primary-500">
-                mevcut hesabınıza giriş yapın
-              </Link>
-            </p>
+      <div className="flex items-center justify-center min-h-screen px-4 py-12">
+        <div className="w-full max-w-2xl">
+          {/* Logo ve Başlık */}
+          <div className="text-center mb-8">
+            <div className="mx-auto w-16 h-16 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full flex items-center justify-center mb-4">
+              <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z" />
+              </svg>
+            </div>
+            <h1 className="text-3xl font-bold text-gray-900 mb-2">Hesap Oluşturun</h1>
+            <p className="text-gray-600">Neomedya ailesine katılın</p>
           </div>
-          
-          <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
-            <div className="space-y-4">
-              <div className="grid grid-cols-2 gap-4">
+
+          {/* Kayıt Formu */}
+          <div className="bg-white rounded-2xl shadow-xl border border-gray-100 p-8">
+            <form onSubmit={handleSubmit} className="space-y-6">
+              {/* Kişisel Bilgiler */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
-                  <label htmlFor="firstName" className="block text-sm font-medium text-secondary-700">
-                    Ad
+                  <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">
+                    Ad Soyad *
                   </label>
                   <input
-                    id="firstName"
-                    name="firstName"
+                    id="name"
                     type="text"
+                    value={formData.name}
+                    onChange={(e) => handleInputChange('name', e.target.value)}
+                    className="block w-full px-3 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                    placeholder="Ad Soyad"
                     required
-                    value={formData.firstName}
-                    onChange={handleChange}
-                    className="mt-1 block w-full px-3 py-2 border border-secondary-300 rounded-md shadow-sm placeholder-secondary-400 focus:outline-none focus:ring-primary-500 focus:border-primary-500"
-                    placeholder="Adınız"
                   />
                 </div>
-                
+
                 <div>
-                  <label htmlFor="lastName" className="block text-sm font-medium text-secondary-700">
-                    Soyad
+                  <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
+                    E-posta *
                   </label>
                   <input
-                    id="lastName"
-                    name="lastName"
-                    type="text"
+                    id="email"
+                    type="email"
+                    value={formData.email}
+                    onChange={(e) => handleInputChange('email', e.target.value)}
+                    className="block w-full px-3 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                    placeholder="ornek@email.com"
                     required
-                    value={formData.lastName}
-                    onChange={handleChange}
-                    className="mt-1 block w-full px-3 py-2 border border-secondary-300 rounded-md shadow-sm placeholder-secondary-400 focus:outline-none focus:ring-primary-500 focus:border-primary-500"
-                    placeholder="Soyadınız"
+                  />
+                </div>
+
+                <div>
+                  <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-2">
+                    Telefon *
+                  </label>
+                  <input
+                    id="phone"
+                    type="tel"
+                    value={formData.phone}
+                    onChange={(e) => handleInputChange('phone', e.target.value)}
+                    className="block w-full px-3 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                    placeholder="0555 123 45 67"
+                    required
+                  />
+                </div>
+
+                <div>
+                  <label htmlFor="birthDate" className="block text-sm font-medium text-gray-700 mb-2">
+                    Doğum Tarihi *
+                  </label>
+                  <input
+                    id="birthDate"
+                    type="date"
+                    value={formData.birthDate}
+                    onChange={(e) => handleInputChange('birthDate', e.target.value)}
+                    className="block w-full px-3 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                    required
+                  />
+                </div>
+
+                <div>
+                  <label htmlFor="gender" className="block text-sm font-medium text-gray-700 mb-2">
+                    Cinsiyet *
+                  </label>
+                  <select
+                    id="gender"
+                    value={formData.gender}
+                    onChange={(e) => handleInputChange('gender', e.target.value)}
+                    className="block w-full px-3 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                    required
+                  >
+                    <option value="">Seçiniz</option>
+                    <option value="erkek">Erkek</option>
+                    <option value="kadin">Kadın</option>
+                    <option value="diger">Diğer</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label htmlFor="city" className="block text-sm font-medium text-gray-700 mb-2">
+                    Şehir *
+                  </label>
+                  <input
+                    id="city"
+                    type="text"
+                    value={formData.city}
+                    onChange={(e) => handleInputChange('city', e.target.value)}
+                    className="block w-full px-3 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                    placeholder="İstanbul"
+                    required
                   />
                 </div>
               </div>
-              
-              <div>
-                <label htmlFor="email" className="block text-sm font-medium text-secondary-700">
-                  E-posta Adresi
-                </label>
-                <input
-                  id="email"
-                  name="email"
-                  type="email"
-                  autoComplete="email"
-                  required
-                  value={formData.email}
-                  onChange={handleChange}
-                  className="mt-1 block w-full px-3 py-2 border border-secondary-300 rounded-md shadow-sm placeholder-secondary-400 focus:outline-none focus:ring-primary-500 focus:border-primary-500"
-                  placeholder="ornek@email.com"
-                />
-              </div>
-              
-              <div>
-                <label htmlFor="phone" className="block text-sm font-medium text-secondary-700">
-                  Telefon Numarası
-                </label>
-                <input
-                  id="phone"
-                  name="phone"
-                  type="tel"
-                  required
-                  value={formData.phone}
-                  onChange={handleChange}
-                  className="mt-1 block w-full px-3 py-2 border border-secondary-300 rounded-md shadow-sm placeholder-secondary-400 focus:outline-none focus:ring-primary-500 focus:border-primary-500"
-                  placeholder="0555 123 45 67"
-                />
-              </div>
-              
-              <div>
-                <label htmlFor="password" className="block text-sm font-medium text-secondary-700">
-                  Şifre
-                </label>
-                <input
-                  id="password"
-                  name="password"
-                  type="password"
-                  autoComplete="new-password"
-                  required
-                  value={formData.password}
-                  onChange={handleChange}
-                  className="mt-1 block w-full px-3 py-2 border border-secondary-300 rounded-md shadow-sm placeholder-secondary-400 focus:outline-none focus:ring-primary-500 focus:border-primary-500"
-                  placeholder="En az 8 karakter"
-                />
-              </div>
-              
-              <div>
-                <label htmlFor="confirmPassword" className="block text-sm font-medium text-secondary-700">
-                  Şifre Tekrar
-                </label>
-                <input
-                  id="confirmPassword"
-                  name="confirmPassword"
-                  type="password"
-                  autoComplete="new-password"
-                  required
-                  value={formData.confirmPassword}
-                  onChange={handleChange}
-                  className="mt-1 block w-full px-3 py-2 border border-secondary-300 rounded-md shadow-sm placeholder-secondary-400 focus:outline-none focus:ring-primary-500 focus:border-primary-500"
-                  placeholder="Şifrenizi tekrar girin"
-                />
-              </div>
-            </div>
 
-            <div className="flex items-center">
-              <input
-                id="acceptTerms"
-                name="acceptTerms"
-                type="checkbox"
-                required
-                checked={formData.acceptTerms}
-                onChange={handleChange}
-                className="h-4 w-4 text-primary-600 focus:ring-primary-500 border-secondary-300 rounded"
-              />
-              <label htmlFor="acceptTerms" className="ml-2 block text-sm text-secondary-900">
-                <Link href="/kosullar" className="text-primary-600 hover:text-primary-500">
-                  Kullanım şartlarını
-                </Link>
-                {' '}ve{' '}
-                <Link href="/gizlilik" className="text-primary-600 hover:text-primary-500">
-                  gizlilik politikasını
-                </Link>
-                {' '}kabul ediyorum
-              </label>
-            </div>
+              {/* Adres Bilgileri */}
+              <div>
+                <label htmlFor="address" className="block text-sm font-medium text-gray-700 mb-2">
+                  Adres *
+                </label>
+                <textarea
+                  id="address"
+                  value={formData.address}
+                  onChange={(e) => handleInputChange('address', e.target.value)}
+                  rows={3}
+                  className="block w-full px-3 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                  placeholder="Tam adres bilgileriniz"
+                  required
+                />
+              </div>
 
-            <div>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                  <label htmlFor="postalCode" className="block text-sm font-medium text-gray-700 mb-2">
+                    Posta Kodu *
+                  </label>
+                  <input
+                    id="postalCode"
+                    type="text"
+                    value={formData.postalCode}
+                    onChange={(e) => handleInputChange('postalCode', e.target.value)}
+                    className="block w-full px-3 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                    placeholder="34000"
+                    required
+                  />
+                </div>
+              </div>
+
+              {/* Şifre Bilgileri */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                  <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-2">
+                    Şifre *
+                  </label>
+                  <input
+                    id="password"
+                    type="password"
+                    value={formData.password}
+                    onChange={(e) => handleInputChange('password', e.target.value)}
+                    className="block w-full px-3 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                    placeholder="En az 6 karakter"
+                    required
+                  />
+                </div>
+
+                <div>
+                  <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700 mb-2">
+                    Şifre Tekrar *
+                  </label>
+                  <input
+                    id="confirmPassword"
+                    type="password"
+                    value={formData.confirmPassword}
+                    onChange={(e) => handleInputChange('confirmPassword', e.target.value)}
+                    className="block w-full px-3 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                    placeholder="Şifrenizi tekrar girin"
+                    required
+                  />
+                </div>
+              </div>
+
+              {/* Hata ve Başarı Mesajları */}
+              {error && (
+                <div className="bg-red-50 border border-red-200 rounded-lg p-4">
+                  <div className="flex">
+                    <svg className="h-5 w-5 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    <p className="ml-3 text-sm text-red-600">{error}</p>
+                  </div>
+                </div>
+              )}
+
+              {success && (
+                <div className="bg-green-50 border border-green-200 rounded-lg p-4">
+                  <div className="flex">
+                    <svg className="h-5 w-5 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    <p className="ml-3 text-sm text-green-600">{success}</p>
+                  </div>
+                </div>
+              )}
+
+              {/* Kayıt Butonu */}
               <button
                 type="submit"
                 disabled={isLoading}
-                className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200"
               >
                 {isLoading ? (
-                  <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                  </svg>
-                ) : null}
-                {isLoading ? 'Kayıt yapılıyor...' : 'Hesap Oluştur'}
+                  <div className="flex items-center">
+                    <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" fill="none" viewBox="0 0 24 24">
+                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                    Kayıt yapılıyor...
+                  </div>
+                ) : (
+                  'Hesap Oluştur'
+                )}
               </button>
+            </form>
+
+            {/* Giriş Linki */}
+            <div className="mt-8 text-center">
+              <p className="text-sm text-gray-600">
+                Zaten hesabınız var mı?{' '}
+                <Link href="/giris" className="font-medium text-blue-600 hover:text-blue-500">
+                  Giriş yapın
+                </Link>
+              </p>
             </div>
-
-            <div className="mt-6">
-              <div className="relative">
-                <div className="absolute inset-0 flex items-center">
-                  <div className="w-full border-t border-secondary-300" />
-                </div>
-                <div className="relative flex justify-center text-sm">
-                  <span className="px-2 bg-white text-secondary-500">Veya</span>
-                </div>
-              </div>
-
-              <div className="mt-6 grid grid-cols-2 gap-3">
-                <button
-                  type="button"
-                  className="w-full inline-flex justify-center py-2 px-4 border border-secondary-300 rounded-md shadow-sm bg-white text-sm font-medium text-secondary-500 hover:bg-secondary-50"
-                >
-                  <svg className="w-5 h-5" viewBox="0 0 24 24">
-                    <path fill="currentColor" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
-                    <path fill="currentColor" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
-                    <path fill="currentColor" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
-                    <path fill="currentColor" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
-                  </svg>
-                  <span className="ml-2">Google</span>
-                </button>
-
-                <button
-                  type="button"
-                  className="w-full inline-flex justify-center py-2 px-4 border border-secondary-300 rounded-md shadow-sm bg-white text-sm font-medium text-secondary-500 hover:bg-secondary-50"
-                >
-                  <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
-                  </svg>
-                  <span className="ml-2">Facebook</span>
-                </button>
-              </div>
-            </div>
-          </form>
+          </div>
         </div>
       </div>
-    </main>
+    </div>
   )
 } 

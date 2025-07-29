@@ -9,6 +9,10 @@ Modern ve şık giyim mağazası web sitesi. Next.js 14, TypeScript ve Tailwind 
 - **Kullanıcı Sistemi** - Giriş, kayıt, profil yönetimi
 - **Admin Panel** - Ürün, sipariş, müşteri yönetimi
 - **Sepet Sistemi** - Alışveriş sepeti
+- **Gerçek Ödeme Sistemi** - iyzico entegrasyonu ile güvenli ödeme
+  - Kredi/Banka kartı ödemesi
+  - iyzico checkout form
+  - Havale/EFT seçeneği
 - **Modern UI/UX** - Tailwind CSS ile güzel tasarım
 
 ## 📁 Proje Yapısı
@@ -40,6 +44,7 @@ Modern ve şık giyim mağazası web sitesi. Next.js 14, TypeScript ve Tailwind 
 - **Next.js 14** - React framework
 - **TypeScript** - Tip güvenliği
 - **Tailwind CSS** - CSS framework
+- **iyzico** - Ödeme sistemi entegrasyonu
 - **Zustand** - State yönetimi
 
 ## 🚀 Kurulum
@@ -47,6 +52,13 @@ Modern ve şık giyim mağazası web sitesi. Next.js 14, TypeScript ve Tailwind 
 ```bash
 # Bağımlılıkları yükle
 npm install
+
+# Environment variables dosyasını oluştur
+cp env.example .env.local
+
+# iyzico API keylerini .env.local dosyasına ekle
+# IYZICO_API_KEY=your-api-key
+# IYZICO_SECRET_KEY=your-secret-key
 
 # Geliştirme sunucusunu başlat
 npm run dev
@@ -57,6 +69,17 @@ npm run build
 # Production sunucusunu başlat
 npm start
 ```
+
+## 🔧 iyzico Kurulumu
+
+1. **iyzico Hesabı Oluştur**: https://www.iyzico.com
+2. **API Keylerini Al**: Sandbox ve Production için
+3. **Environment Variables Ayarla**:
+   ```env
+   IYZICO_API_KEY=your-api-key
+   IYZICO_SECRET_KEY=your-secret-key
+   IYZICO_URI=https://api.iyzipay.com
+   ```
 
 ## 🌐 Canlı Site
 
