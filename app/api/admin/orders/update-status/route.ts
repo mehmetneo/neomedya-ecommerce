@@ -1,5 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server'
 
+// Dynamic route olarak işaretle
+export const dynamic = 'force-dynamic'
+
 export type OrderStatus = 'pending' | 'processing' | 'shipped' | 'delivered' | 'cancelled' | 'payment_pending'
 
 interface Order {

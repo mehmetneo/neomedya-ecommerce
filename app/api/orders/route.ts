@@ -2,6 +2,9 @@ import { NextRequest, NextResponse } from 'next/server'
 import { promises as fs } from 'fs'
 import path from 'path'
 
+// Dynamic route olarak işaretle
+export const dynamic = 'force-dynamic'
+
 // Veri dosyası yolu
 const dataFilePath = path.join(process.cwd(), 'data', 'orders.json')
 const usersFilePath = path.join(process.cwd(), 'data', 'users.json')

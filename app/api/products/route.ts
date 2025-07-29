@@ -2,6 +2,9 @@ import { NextRequest, NextResponse } from 'next/server'
 import fs from 'fs/promises'
 import path from 'path'
 
+// Dynamic route olarak işaretle
+export const dynamic = 'force-dynamic'
+
 const PRODUCTS_FILE = path.join(process.cwd(), 'data', 'products.json')
 
 interface Product {

@@ -1,6 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { cookies } from 'next/headers'
 
+// Dynamic route olarak işaretle
+export const dynamic = 'force-dynamic'
+
 // Admin bilgileri (gerçek uygulamada veritabanından alınır)
 const ADMIN_CREDENTIALS = {
   username: 'admin',
