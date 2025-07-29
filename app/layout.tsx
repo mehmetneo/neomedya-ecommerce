@@ -5,9 +5,8 @@ import './globals.css'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: 'Neomedya E-ticaret - Modern Giyim Mağazası',
-  description: 'En trend ve kaliteli giyim ürünleri. Erkek, kadın ve çocuk kıyafetleri. Hızlı teslimat ve güvenli alışveriş.',
-  keywords: 'giyim, moda, kıyafet, alışveriş, online mağaza, neomedya',
+  title: 'Neomedya - Moda Koleksiyonu',
+  description: 'En kaliteli moda ürünlerini uygun fiyatlarla sunuyoruz. Erkek, kadın ve çocuk kıyafetleri, ayakkabılar ve aksesuarlar.',
 }
 
 export const viewport: Viewport = {
