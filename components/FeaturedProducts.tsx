@@ -21,71 +21,114 @@ interface Product {
   tags?: string[]
 }
 
+// Static ürün verileri
+const staticFeaturedProducts: Product[] = [
+  {
+    id: '1',
+    name: 'Premium Pamuklu T-Shirt',
+    category: 'Erkek',
+    price: 89.99,
+    stock: 50,
+    status: 'active',
+    image: 'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=400&h=400&fit=crop',
+    description: 'Rahat ve dayanıklı pamuklu t-shirt',
+    createdAt: new Date().toISOString(),
+    salesCount: 150
+  },
+  {
+    id: '11',
+    name: 'Kadın Elbise',
+    category: 'Kadın',
+    price: 299.99,
+    stock: 20,
+    status: 'active',
+    image: 'https://images.unsplash.com/photo-1515372039744-b8f02a3ae446?w=400&h=400&fit=crop',
+    description: 'Şık kadın elbisesi',
+    createdAt: new Date().toISOString(),
+    salesCount: 120
+  },
+  {
+    id: '21',
+    name: 'Çocuk T-Shirt',
+    category: 'Çocuk',
+    price: 49.99,
+    stock: 60,
+    status: 'active',
+    image: 'https://images.unsplash.com/photo-1503341504253-dff4815485f1?w=400&h=400&fit=crop',
+    description: 'Çocuklar için rahat t-shirt',
+    createdAt: new Date().toISOString(),
+    salesCount: 200
+  },
+  {
+    id: '31',
+    name: 'Spor Ayakkabı',
+    category: 'Ayakkabı',
+    price: 299.99,
+    stock: 50,
+    status: 'active',
+    image: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400&h=400&fit=crop',
+    description: 'Rahat spor ayakkabı',
+    createdAt: new Date().toISOString(),
+    salesCount: 180
+  },
+  {
+    id: '41',
+    name: 'Saat',
+    category: 'Aksesuar',
+    price: 599.99,
+    stock: 15,
+    status: 'active',
+    image: 'https://images.unsplash.com/photo-1524592094714-0f0654e20314?w=400&h=400&fit=crop',
+    description: 'Şık kol saati',
+    createdAt: new Date().toISOString(),
+    salesCount: 80
+  },
+  {
+    id: '2',
+    name: 'Slim Fit Kot Pantolon',
+    category: 'Erkek',
+    price: 199.99,
+    stock: 30,
+    status: 'active',
+    image: 'https://images.unsplash.com/photo-1542272604-787c3835535d?w=400&h=400&fit=crop',
+    description: 'Modern kesim kot pantolon',
+    createdAt: new Date().toISOString(),
+    salesCount: 95
+  },
+  {
+    id: '12',
+    name: 'Kadın Bluz',
+    category: 'Kadın',
+    price: 129.99,
+    stock: 35,
+    status: 'active',
+    image: 'https://images.unsplash.com/photo-1434389677669-e08b4c3d5d8b?w=400&h=400&fit=crop',
+    description: 'Zarif kadın bluzu',
+    createdAt: new Date().toISOString(),
+    salesCount: 110
+  },
+  {
+    id: '32',
+    name: 'Günlük Ayakkabı',
+    category: 'Ayakkabı',
+    price: 199.99,
+    stock: 40,
+    status: 'active',
+    image: 'https://images.unsplash.com/photo-1549298916-b41d501d3772?w=400&h=400&fit=crop',
+    description: 'Günlük kullanım ayakkabısı',
+    createdAt: new Date().toISOString(),
+    salesCount: 160
+  }
+]
+
 export default function FeaturedProducts() {
   const [products, setProducts] = useState<Product[]>([])
   const [loading, setLoading] = useState(true)
-  const [error, setError] = useState<string | null>(null)
-
-  // Ürünleri API'den çek
-  const fetchProducts = async () => {
-    try {
-      setLoading(true)
-      setError(null)
-      
-      // Tüm kategorilerden ürünleri topla
-      const allProducts: Product[] = []
-      
-      // Her kategoriden ürünleri çek
-      const categories = ['erkek', 'kadin', 'cocuk', 'ayakkabı', 'aksesuar']
-      
-      for (const category of categories) {
-        try {
-          const response = await fetch(`/api/products?category=${category}`)
-          const data = await response.json()
-          
-          if (data.success && data.products.length > 0) {
-            // Ürünleri formatla
-            const formattedProducts = data.products.map((product: any) => ({
-              ...product,
-              salesCount: Math.floor(Math.random() * 200) + 50, // 50-250 arası rastgele satış sayısı
-              images: product.images || [product.image]
-            }))
-            allProducts.push(...formattedProducts)
-          }
-        } catch (err) {
-          console.error(`${category} kategorisi için ürün yükleme hatası:`, err)
-        }
-      }
-      
-      // Ürünleri karıştır ve rastgele 8 tanesini seç
-      const shuffled = allProducts.sort(() => 0.5 - Math.random())
-      const selectedProducts = shuffled.slice(0, 8)
-      
-      setProducts(selectedProducts)
-    } catch (err) {
-      setError('Ürünler yüklenirken hata oluştu')
-      console.error('❌ Ürün yükleme hatası:', err)
-    } finally {
-      setLoading(false)
-    }
-  }
 
   useEffect(() => {
-    fetchProducts()
-  }, [])
-
-  // Admin panelinde ürün güncellendiğinde sayfayı yenile
-  useEffect(() => {
-    const handleProductsUpdated = (event: CustomEvent) => {
-      console.log('🔄 Öne çıkan ürünler güncellendi, sayfa yenileniyor...')
-      fetchProducts()
-    }
-
-    window.addEventListener('productsUpdated' as any, handleProductsUpdated)
-    
-    return () => {
-      window.removeEventListener('productsUpdated' as any, handleProductsUpdated)
-    }
+    // Static ürünleri kullan
+    setProducts(staticFeaturedProducts)
+    setLoading(false)
   }, [])
 
   const addToCart = (product: Product) => {
@@ -120,7 +163,7 @@ export default function FeaturedProducts() {
         return '👔'
       case 'kadin':
         return '👗'
-      case 'cocuk':
+      case 'çocuk':
         return '👶'
       case 'ayakkabı':
       case 'ayakkabi':
@@ -150,42 +193,6 @@ export default function FeaturedProducts() {
                 <div className="h-6 bg-gray-200 rounded w-1/2"></div>
               </div>
             ))}
-          </div>
-        </div>
-      </section>
-    )
-  }
-
-  if (error) {
-    return (
-      <section className="py-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">Öne Çıkan Ürünler</h2>
-            <p className="text-lg text-gray-600 mb-8">En popüler ürünlerimizi keşfedin</p>
-          </div>
-          
-          <div className="text-center">
-            <p className="text-red-600 mb-4">{error}</p>
-            <button 
-              onClick={fetchProducts}
-              className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
-            >
-              Tekrar Dene
-            </button>
-          </div>
-        </div>
-      </section>
-    )
-  }
-
-  if (products.length === 0) {
-    return (
-      <section className="py-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">Öne Çıkan Ürünler</h2>
-            <p className="text-lg text-gray-600 mb-8">Henüz ürün bulunmuyor</p>
           </div>
         </div>
       </section>
