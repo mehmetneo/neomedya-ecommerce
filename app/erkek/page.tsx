@@ -293,49 +293,50 @@ export default function ErkekPage() {
 
       {/* Product Modal */}
       {isProductModalOpen && selectedProduct && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-lg max-w-4xl w-full max-h-[90vh] overflow-y-auto">
-            <div className="p-6">
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-2 sm:p-4">
+          <div className="bg-white rounded-lg w-full max-w-2xl max-h-[95vh] overflow-y-auto">
+            <div className="p-4 sm:p-6">
+              {/* Header */}
               <div className="flex justify-between items-start mb-4">
-                <h2 className="text-2xl font-bold">{selectedProduct.name}</h2>
+                <h2 className="text-lg sm:text-2xl font-bold pr-4">{selectedProduct.name}</h2>
                 <button 
                   onClick={closeProductModal}
-                  className="text-gray-500 hover:text-gray-700 text-2xl"
+                  className="text-gray-500 hover:text-gray-700 text-2xl p-1"
                 >
                   ×
                 </button>
               </div>
               
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
                 {/* Image Gallery */}
                 <div className="relative">
                   <img 
                     src={selectedProduct.images?.[currentImageIndex] || selectedProduct.image} 
                     alt={selectedProduct.name}
-                    className="w-full h-96 object-cover rounded-lg"
+                    className="w-full h-48 sm:h-64 lg:h-80 object-cover rounded-lg"
                   />
                   
                   {selectedProduct.images && selectedProduct.images.length > 1 && (
                     <>
                       <button 
                         onClick={prevImage}
-                        className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-white bg-opacity-80 rounded-full p-2 hover:bg-opacity-100"
+                        className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-white bg-opacity-80 rounded-full p-1 sm:p-2 hover:bg-opacity-100"
                       >
                         ←
                       </button>
                       <button 
                         onClick={nextImage}
-                        className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-white bg-opacity-80 rounded-full p-2 hover:bg-opacity-100"
+                        className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-white bg-opacity-80 rounded-full p-1 sm:p-2 hover:bg-opacity-100"
                       >
                         →
                       </button>
                       
-                      <div className="flex space-x-2 mt-4">
+                      <div className="flex space-x-2 mt-2 sm:mt-4 overflow-x-auto">
                         {selectedProduct.images.map((image: string, index: number) => (
                           <button
                             key={index}
                             onClick={() => selectImage(index)}
-                            className={`w-16 h-16 rounded border-2 ${
+                            className={`flex-shrink-0 w-12 h-12 sm:w-16 sm:h-16 rounded border-2 ${
                               index === currentImageIndex ? 'border-blue-500' : 'border-gray-300'
                             }`}
                           >
@@ -352,17 +353,21 @@ export default function ErkekPage() {
                 </div>
                 
                 {/* Product Details */}
-                <div>
-                  <div className="mb-4">
-                    <h3 className="text-xl font-semibold mb-2">{selectedProduct.name}</h3>
-                    <p className="text-gray-600 mb-4">{selectedProduct.description}</p>
+                <div className="space-y-4">
+                  <div>
+                    <h3 className="text-lg sm:text-xl font-semibold mb-2">{selectedProduct.name}</h3>
+                    {selectedProduct.description && (
+                      <p className="text-sm sm:text-base text-gray-600 mb-3 line-clamp-3">
+                        {selectedProduct.description}
+                      </p>
+                    )}
                     
-                    <div className="flex items-center space-x-4 mb-4">
-                      <span className="text-3xl font-bold text-blue-600">
+                    <div className="flex items-center space-x-3 mb-3">
+                      <span className="text-2xl sm:text-3xl font-bold text-blue-600">
                         ₺{selectedProduct.price.toFixed(2)}
                       </span>
                       {selectedProduct.originalPrice && (
-                        <span className="text-xl text-gray-400 line-through">
+                        <span className="text-lg sm:text-xl text-gray-400 line-through">
                           ₺{selectedProduct.originalPrice.toFixed(2)}
                         </span>
                       )}
@@ -370,25 +375,25 @@ export default function ErkekPage() {
                     
                     <div className="flex items-center space-x-2 mb-4">
                       <span className="text-yellow-500">★</span>
-                      <span className="font-semibold">{selectedProduct.rating}</span>
-                      <span className="text-gray-600">({selectedProduct.reviews} değerlendirme)</span>
+                      <span className="font-semibold text-sm sm:text-base">{selectedProduct.rating}</span>
+                      <span className="text-gray-600 text-sm">({selectedProduct.reviews} değerlendirme)</span>
                     </div>
                   </div>
                   
                   {/* Size Selection */}
-                  <div className="mb-4">
+                  <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
                       Beden
                     </label>
-                    <div className="flex space-x-2">
+                    <div className="flex flex-wrap gap-2">
                       {['XS', 'S', 'M', 'L', 'XL'].map((size) => (
                         <button
                           key={size}
                           onClick={() => setSelectedSize(size)}
-                          className={`px-3 py-1 rounded border ${
+                          className={`px-3 py-2 rounded border text-sm ${
                             selectedSize === size 
                               ? 'border-blue-500 bg-blue-50 text-blue-600' 
-                              : 'border-gray-300 text-gray-700'
+                              : 'border-gray-300 text-gray-700 hover:border-gray-400'
                           }`}
                         >
                           {size}
@@ -398,19 +403,19 @@ export default function ErkekPage() {
                   </div>
                   
                   {/* Color Selection */}
-                  <div className="mb-6">
+                  <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
                       Renk
                     </label>
-                    <div className="flex space-x-2">
+                    <div className="flex flex-wrap gap-2">
                       {['Beyaz', 'Siyah', 'Mavi', 'Kırmızı', 'Gri'].map((color) => (
                         <button
                           key={color}
                           onClick={() => setSelectedColor(color)}
-                          className={`px-3 py-1 rounded border ${
+                          className={`px-3 py-2 rounded border text-sm ${
                             selectedColor === color 
                               ? 'border-blue-500 bg-blue-50 text-blue-600' 
-                              : 'border-gray-300 text-gray-700'
+                              : 'border-gray-300 text-gray-700 hover:border-gray-400'
                           }`}
                         >
                           {color}
@@ -424,7 +429,7 @@ export default function ErkekPage() {
                       handleAddToCart(selectedProduct, selectedSize, selectedColor)
                       closeProductModal()
                     }}
-                    className="w-full bg-blue-600 text-white py-3 px-6 rounded-lg hover:bg-blue-700 transition-colors duration-200 font-semibold"
+                    className="w-full bg-blue-600 text-white py-3 px-6 rounded-lg hover:bg-blue-700 transition-colors duration-200 font-semibold text-sm sm:text-base"
                   >
                     Sepete Ekle
                   </button>
