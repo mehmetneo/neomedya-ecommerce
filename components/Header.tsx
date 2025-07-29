@@ -15,7 +15,7 @@ interface User {
   isLoggedIn: boolean
 }
 
-// Tüm ürünler
+// Tüm ürünler - Static veri
 const allProducts = [
   // Erkek ürünleri
   { id: '1', name: 'Premium Pamuklu T-Shirt', category: 'Erkek', price: 89.99, image: '/images/placeholder.svg' },
@@ -23,11 +23,6 @@ const allProducts = [
   { id: '3', name: 'Deri Ceket', category: 'Erkek', price: 899.99, image: '/images/placeholder.svg' },
   { id: '4', name: 'Spor Ayakkabı', category: 'Erkek', price: 299.99, image: '/images/placeholder.svg' },
   { id: '5', name: 'Gömlek', category: 'Erkek', price: 149.99, image: '/images/placeholder.svg' },
-  { id: '6', name: 'Spor Şort', category: 'Erkek', price: 79.99, image: '/images/placeholder.svg' },
-  { id: '7', name: 'Kot Ceket', category: 'Erkek', price: 399.99, image: '/images/placeholder.svg' },
-  { id: '8', name: 'Formal Pantolon', category: 'Erkek', price: 249.99, image: '/images/placeholder.svg' },
-  { id: '9', name: 'Polo T-Shirt', category: 'Erkek', price: 119.99, image: '/images/placeholder.svg' },
-  { id: '10', name: 'Spor Mont', category: 'Erkek', price: 599.99, image: '/images/placeholder.svg' },
   
   // Kadın ürünleri
   { id: '11', name: 'Kadın Elbise', category: 'Kadın', price: 299.99, image: '/images/placeholder.svg' },
@@ -35,11 +30,6 @@ const allProducts = [
   { id: '13', name: 'Kadın Pantolon', category: 'Kadın', price: 179.99, image: '/images/placeholder.svg' },
   { id: '14', name: 'Kadın Ceket', category: 'Kadın', price: 399.99, image: '/images/placeholder.svg' },
   { id: '15', name: 'Kadın T-Shirt', category: 'Kadın', price: 89.99, image: '/images/placeholder.svg' },
-  { id: '16', name: 'Kadın Etek', category: 'Kadın', price: 159.99, image: '/images/placeholder.svg' },
-  { id: '17', name: 'Kadın Mont', category: 'Kadın', price: 499.99, image: '/images/placeholder.svg' },
-  { id: '18', name: 'Kadın Tunik', category: 'Kadın', price: 199.99, image: '/images/placeholder.svg' },
-  { id: '19', name: 'Kadın Şort', category: 'Kadın', price: 99.99, image: '/images/placeholder.svg' },
-  { id: '20', name: 'Kadın Gömlek', category: 'Kadın', price: 169.99, image: '/images/placeholder.svg' },
   
   // Çocuk ürünleri
   { id: '21', name: 'Çocuk T-Shirt', category: 'Çocuk', price: 49.99, image: '/images/placeholder.svg' },
@@ -47,11 +37,6 @@ const allProducts = [
   { id: '23', name: 'Çocuk Elbise', category: 'Çocuk', price: 119.99, image: '/images/placeholder.svg' },
   { id: '24', name: 'Çocuk Mont', category: 'Çocuk', price: 199.99, image: '/images/placeholder.svg' },
   { id: '25', name: 'Çocuk Şort', category: 'Çocuk', price: 59.99, image: '/images/placeholder.svg' },
-  { id: '26', name: 'Çocuk Ceket', category: 'Çocuk', price: 149.99, image: '/images/placeholder.svg' },
-  { id: '27', name: 'Çocuk Bluz', category: 'Çocuk', price: 79.99, image: '/images/placeholder.svg' },
-  { id: '28', name: 'Çocuk Etek', category: 'Çocuk', price: 99.99, image: '/images/placeholder.svg' },
-  { id: '29', name: 'Çocuk Gömlek', category: 'Çocuk', price: 89.99, image: '/images/placeholder.svg' },
-  { id: '30', name: 'Çocuk Tunik', category: 'Çocuk', price: 109.99, image: '/images/placeholder.svg' },
   
   // Ayakkabı ürünleri
   { id: '31', name: 'Spor Ayakkabı', category: 'Ayakkabı', price: 299.99, image: '/images/placeholder.svg' },
@@ -59,23 +44,13 @@ const allProducts = [
   { id: '33', name: 'Resmi Ayakkabı', category: 'Ayakkabı', price: 399.99, image: '/images/placeholder.svg' },
   { id: '34', name: 'Bot', category: 'Ayakkabı', price: 499.99, image: '/images/placeholder.svg' },
   { id: '35', name: 'Sandalet', category: 'Ayakkabı', price: 149.99, image: '/images/placeholder.svg' },
-  { id: '36', name: 'Loafer', category: 'Ayakkabı', price: 349.99, image: '/images/placeholder.svg' },
-  { id: '37', name: 'Sneaker', category: 'Ayakkabı', price: 249.99, image: '/images/placeholder.svg' },
-  { id: '38', name: 'Oxford', category: 'Ayakkabı', price: 449.99, image: '/images/placeholder.svg' },
-  { id: '39', name: 'Mokasen', category: 'Ayakkabı', price: 379.99, image: '/images/placeholder.svg' },
-  { id: '40', name: 'Deri Ayakkabı', category: 'Ayakkabı', price: 599.99, image: '/images/placeholder.svg' },
   
   // Aksesuar ürünleri
   { id: '41', name: 'Saat', category: 'Aksesuar', price: 599.99, image: '/images/placeholder.svg' },
   { id: '42', name: 'Çanta', category: 'Aksesuar', price: 199.99, image: '/images/placeholder.svg' },
   { id: '43', name: 'Kolye', category: 'Aksesuar', price: 99.99, image: '/images/placeholder.svg' },
   { id: '44', name: 'Güneş Gözlüğü', category: 'Aksesuar', price: 149.99, image: '/images/placeholder.svg' },
-  { id: '45', name: 'Kemer', category: 'Aksesuar', price: 79.99, image: '/images/placeholder.svg' },
-  { id: '46', name: 'Şal', category: 'Aksesuar', price: 89.99, image: '/images/placeholder.svg' },
-  { id: '47', name: 'Cüzdan', category: 'Aksesuar', price: 129.99, image: '/images/placeholder.svg' },
-  { id: '48', name: 'Bilezik', category: 'Aksesuar', price: 69.99, image: '/images/placeholder.svg' },
-  { id: '49', name: 'Şapka', category: 'Aksesuar', price: 119.99, image: '/images/placeholder.svg' },
-  { id: '50', name: 'Eldiven', category: 'Aksesuar', price: 59.99, image: '/images/placeholder.svg' }
+  { id: '45', name: 'Kemer', category: 'Aksesuar', price: 79.99, image: '/images/placeholder.svg' }
 ]
 
 export default function Header({ onCartClick, cartItemCount }: HeaderProps) {
@@ -87,7 +62,6 @@ export default function Header({ onCartClick, cartItemCount }: HeaderProps) {
   const [searchTerm, setSearchTerm] = useState('')
   const [searchResults, setSearchResults] = useState<any[]>([])
   const [showSearchResults, setShowSearchResults] = useState(false)
-  const [products, setProducts] = useState(allProducts)
   const [currentPath, setCurrentPath] = useState('')
   const router = useRouter()
 
@@ -101,27 +75,6 @@ export default function Header({ onCartClick, cartItemCount }: HeaderProps) {
     const userData = localStorage.getItem('user')
     if (userData) {
       setUser(JSON.parse(userData))
-    }
-
-    // Admin panelinden gelen ürün güncellemelerini dinle
-    const handleProductsUpdated = (event: CustomEvent) => {
-      const updatedProducts = event.detail
-      setProducts(updatedProducts)
-    }
-
-    // localStorage'dan ürünleri yükle
-    const savedProducts = localStorage.getItem('products')
-    if (savedProducts) {
-      const adminProducts = JSON.parse(savedProducts)
-      if (adminProducts.length > 0) {
-        setProducts(adminProducts)
-      }
-    }
-
-    window.addEventListener('productsUpdated', handleProductsUpdated as EventListener)
-
-    return () => {
-      window.removeEventListener('productsUpdated', handleProductsUpdated as EventListener)
     }
   }, [])
 
@@ -145,18 +98,10 @@ export default function Header({ onCartClick, cartItemCount }: HeaderProps) {
     // İlk yükleme
     updateCartCount()
 
-    // Storage değişikliklerini dinle
-    const handleStorageChange = () => {
-      updateCartCount()
-    }
-
-    window.addEventListener('storage', handleStorageChange)
-    
     // Custom event dinle (sayfa içi güncellemeler için)
     window.addEventListener('cartUpdated', updateCartCount)
 
     return () => {
-      window.removeEventListener('storage', handleStorageChange)
       window.removeEventListener('cartUpdated', updateCartCount)
     }
   }, [])
@@ -171,7 +116,7 @@ export default function Header({ onCartClick, cartItemCount }: HeaderProps) {
 
     const searchTermLower = searchTerm.toLowerCase().trim()
     
-    const filtered = products.filter(product => {
+    const filtered = allProducts.filter(product => {
       const nameLower = product.name.toLowerCase()
       const categoryLower = product.category.toLowerCase()
       
@@ -185,15 +130,9 @@ export default function Header({ onCartClick, cartItemCount }: HeaderProps) {
         return true
       }
       
-      // Kısmi kelime araması - ürün adındaki her kelimeyi kontrol et
+      // Kısmi kelime araması
       const nameWords = nameLower.split(' ')
       if (nameWords.some(word => word.includes(searchTermLower))) {
-        return true
-      }
-      
-      // Kısmi kelime araması - kategorideki her kelimeyi kontrol et
-      const categoryWords = categoryLower.split(' ')
-      if (categoryWords.some(word => word.includes(searchTermLower))) {
         return true
       }
       
@@ -202,7 +141,7 @@ export default function Header({ onCartClick, cartItemCount }: HeaderProps) {
 
     setSearchResults(filtered)
     setShowSearchResults(true)
-  }, [searchTerm, products])
+  }, [searchTerm])
 
   const handleLogout = () => {
     localStorage.removeItem('user')
@@ -497,7 +436,7 @@ export default function Header({ onCartClick, cartItemCount }: HeaderProps) {
             <div className="relative">
               <input
                 type="text"
-                placeholder="Ürün ara... (örn: t-shirt, elbise, ayakkabı, erkek, kadın, çocuk, ceket, pantolon)"
+                placeholder="Ürün ara... (örn: t-shirt, elbise, ayakkabı)"
                 value={searchTerm}
                 onChange={(e) => {
                   setSearchTerm(e.target.value)
@@ -511,14 +450,6 @@ export default function Header({ onCartClick, cartItemCount }: HeaderProps) {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
               </svg>
             </div>
-
-            {/* Search Results Count */}
-            {searchTerm && (
-              <div className="mt-2 text-sm text-gray-600">
-                <p>"{searchTerm}" için {searchResults.length} sonuç bulundu</p>
-                <p className="text-xs text-gray-500 mt-1">Toplam {products.length} ürün arasından arama yapılıyor</p>
-              </div>
-            )}
 
             {/* Search Results */}
             {showSearchResults && searchResults.length > 0 && (

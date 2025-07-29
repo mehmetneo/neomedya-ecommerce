@@ -1,37 +1,51 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { promises as fs } from 'fs'
-import path from 'path'
 
 // Dynamic route olarak işaretle
 export const dynamic = 'force-dynamic'
 
-// Veri dosyası yolu
-const dataFilePath = path.join(process.cwd(), 'data', 'orders.json')
+export type OrderStatus = 'pending' | 'processing' | 'shipped' | 'delivered' | 'cancelled' | 'payment_pending'
 
-// Veri dosyasını oku
-async function readOrders() {
-  try {
-    const data = await fs.readFile(dataFilePath, 'utf-8')
-    return JSON.parse(data)
-  } catch (error) {
-    // Dosya yoksa boş array döndür
-    return []
+// Static sipariş verileri
+const staticOrders = [
+  {
+    id: 'ORDER-001',
+    status: 'pending' as OrderStatus,
+    date: new Date().toISOString(),
+    total: 299.99,
+    items: [
+      { name: 'Premium T-Shirt', price: 89.99, quantity: 2 },
+      { name: 'Kot Pantolon', price: 199.99, quantity: 1 }
+    ],
+    shipping: {
+      name: 'Test Kullanıcı',
+      email: 'test@example.com',
+      phone: '+90 555 123 4567',
+      address: 'Test Adres'
+    },
+    payment: {
+      method: 'bank-transfer'
+    }
+  },
+  {
+    id: 'ORDER-002',
+    status: 'shipped' as OrderStatus,
+    date: new Date(Date.now() - 86400000).toISOString(),
+    total: 599.99,
+    items: [
+      { name: 'Kadın Elbise', price: 299.99, quantity: 1 },
+      { name: 'Spor Ayakkabı', price: 299.99, quantity: 1 }
+    ],
+    shipping: {
+      name: 'Test Kullanıcı',
+      email: 'test@example.com',
+      phone: '+90 555 123 4567',
+      address: 'Test Adres'
+    },
+    payment: {
+      method: 'credit-card'
+    }
   }
-}
-
-// Veri dosyasına yaz
-async function writeOrders(orders: any[]) {
-  try {
-    // data klasörünü oluştur (yoksa)
-    const dataDir = path.dirname(dataFilePath)
-    await fs.mkdir(dataDir, { recursive: true })
-    
-    await fs.writeFile(dataFilePath, JSON.stringify(orders, null, 2))
-  } catch (error) {
-    console.error('Veri yazma hatası:', error)
-    throw error
-  }
-}
+]
 
 export async function GET(request: NextRequest) {
   try {
@@ -39,71 +53,66 @@ export async function GET(request: NextRequest) {
     const orderId = searchParams.get('orderId')
 
     if (!orderId) {
-      return NextResponse.json({ 
-        error: 'Sipariş ID gerekli' 
+      return NextResponse.json({
+        error: 'Sipariş ID gerekli'
       }, { status: 400 })
     }
 
-    // Static generation için mock veri
-    const mockOrder = {
-      id: orderId,
-      status: 'pending',
-      date: new Date().toISOString(),
-      total: 0,
-      items: [],
-      shipping: {},
-      payment: {}
+    // Static sipariş verilerinden bul
+    const order = staticOrders.find(o => o.id === orderId)
+    
+    if (!order) {
+      return NextResponse.json({
+        error: 'Sipariş bulunamadı'
+      }, { status: 404 })
     }
 
     return NextResponse.json({
       success: true,
-      status: mockOrder.status,
-      order: mockOrder
+      status: order.status,
+      order: order
     })
   } catch (error) {
     console.error('Sipariş durumu getirme hatası:', error)
-    return NextResponse.json({ 
-      error: 'Sipariş durumu getirilirken bir hata oluştu' 
+    return NextResponse.json({
+      error: 'Sipariş durumu getirilirken bir hata oluştu'
     }, { status: 500 })
   }
 }
 
 export async function PUT(request: NextRequest) {
   try {
-    const body = await request.json()
-    const { orderId, status } = body
+    const { searchParams } = new URL(request.url)
+    const orderId = searchParams.get('orderId')
+    const newStatus = searchParams.get('status') as OrderStatus
 
-    if (!orderId || !status) {
-      return NextResponse.json({ 
-        error: 'Sipariş ID ve durum gerekli' 
+    if (!orderId || !newStatus) {
+      return NextResponse.json({
+        error: 'Sipariş ID ve yeni durum gerekli'
       }, { status: 400 })
     }
 
-    const orders = await readOrders()
-    const orderIndex = orders.findIndex((order: any) => order.id === orderId)
-
+    // Static sipariş verilerinde güncelle
+    const orderIndex = staticOrders.findIndex(o => o.id === orderId)
+    
     if (orderIndex === -1) {
-      return NextResponse.json({ 
-        error: 'Sipariş bulunamadı' 
+      return NextResponse.json({
+        error: 'Sipariş bulunamadı'
       }, { status: 404 })
     }
 
-    orders[orderIndex].status = status
-    orders[orderIndex].updatedAt = new Date().toISOString()
-    
-    await writeOrders(orders)
-
-    console.log(`✅ API: Sipariş ${orderId} durumu "${status}" olarak güncellendi`)
+    // Sipariş durumunu güncelle
+    staticOrders[orderIndex].status = newStatus
 
     return NextResponse.json({
       success: true,
-      message: 'Sipariş durumu başarıyla güncellendi',
-      order: orders[orderIndex]
+      message: 'Sipariş durumu güncellendi',
+      order: staticOrders[orderIndex]
     })
   } catch (error) {
     console.error('Sipariş durumu güncelleme hatası:', error)
-    return NextResponse.json({ 
-      error: 'Sipariş durumu güncellenirken bir hata oluştu' 
+    return NextResponse.json({
+      error: 'Sipariş durumu güncellenirken bir hata oluştu'
     }, { status: 500 })
   }
 } 

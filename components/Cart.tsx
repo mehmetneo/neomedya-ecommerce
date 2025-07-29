@@ -44,6 +44,8 @@ export default function Cart({ isOpen, onClose }: CartProps) {
   const updateCart = (newItems: CartItem[]) => {
     setItems(newItems)
     localStorage.setItem('cart', JSON.stringify(newItems))
+    // Sepet güncelleme event'ini tetikle
+    window.dispatchEvent(new CustomEvent('cartUpdated'))
   }
 
   const updateQuantity = (itemId: string, newQuantity: number) => {
