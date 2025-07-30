@@ -36,22 +36,30 @@ const Giyim = () => {
   }
 
   return (
-    <main className="min-h-screen bg-gray-50 pt-16">
-      {/* Hero Section */}
-      <section className="bg-gradient-to-r from-purple-600 to-pink-600 text-white py-12">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <main className="min-h-screen bg-gray-50">
+      {/* Colorful Gradient Header */}
+      <section className="bg-gradient-to-r from-purple-500 via-pink-500 to-rose-500 text-white pt-20 sm:pt-16">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
           <div className="text-center">
-            <h1 className="text-4xl md:text-5xl font-bold mb-4">
+            <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm rounded-full px-4 sm:px-6 py-2 mb-6">
+              <span className="text-pink-300">👕</span>
+              <span className="text-sm font-medium">Moda Platformu</span>
+            </div>
+            
+            <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold mb-4 sm:mb-6">
               Moda & Stil
             </h1>
-            <p className="text-lg mb-6 opacity-90">
-              En trend giyim ürünleri, ayakkabılar ve aksesuarlar
+            
+            <p className="text-lg sm:text-xl md:text-2xl mb-8 sm:mb-10 text-pink-100 max-w-3xl mx-auto leading-relaxed">
+              En trend giyim ürünleri, ayakkabılar ve aksesuarlar. 
+              Nike, Adidas, Zara ve daha fazlası.
             </p>
+            
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link href="/giyim/erkek" className="bg-white text-purple-600 px-6 py-2 rounded-lg font-semibold hover:bg-gray-100 transition-colors">
+              <Link href="/giyim/erkek" className="bg-white text-purple-600 px-6 sm:px-8 py-3 sm:py-4 rounded-xl font-semibold hover:bg-gray-100 transition-all duration-300 shadow-lg">
                 Erkek Koleksiyonu
               </Link>
-              <Link href="/giyim/kadin" className="bg-white text-purple-600 px-6 py-2 rounded-lg font-semibold hover:bg-gray-100 transition-colors">
+              <Link href="/giyim/kadin" className="bg-white text-purple-600 px-6 sm:px-8 py-3 sm:py-4 rounded-xl font-semibold hover:bg-gray-100 transition-all duration-300 shadow-lg">
                 Kadın Koleksiyonu
               </Link>
             </div>
@@ -59,23 +67,23 @@ const Giyim = () => {
         </div>
       </section>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
         {/* Categories */}
-        <section className="mb-12">
-          <div className="text-center mb-8">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">Kategoriler</h2>
-            <p className="text-lg text-gray-600">İhtiyacınız olan ürünleri bulun</p>
+        <section className="mb-8 sm:mb-12">
+          <div className="text-center mb-6 sm:mb-8">
+            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-4">Kategoriler</h2>
+            <p className="text-base sm:text-lg text-gray-600">İhtiyacınız olan ürünleri bulun</p>
           </div>
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-4">
             {categories.map((category) => (
               <Link
                 key={category.name}
                 href={category.href}
-                className="bg-white rounded-lg shadow-md p-4 text-center hover:shadow-lg transition-all"
+                className="bg-white rounded-lg shadow-md p-3 sm:p-4 text-center hover:shadow-lg transition-all"
               >
-                <div className="text-4xl mb-3">{category.icon}</div>
-                <h3 className="font-bold text-gray-900 mb-1">{category.name}</h3>
-                <p className="text-sm text-gray-600">{category.count.toLocaleString()} ürün</p>
+                <div className="text-3xl sm:text-4xl mb-2 sm:mb-3">{category.icon}</div>
+                <h3 className="font-bold text-gray-900 mb-1 text-sm sm:text-base">{category.name}</h3>
+                <p className="text-xs sm:text-sm text-gray-600">{category.count.toLocaleString()} ürün</p>
                 <div className="mt-2">
                   <span className="inline-block bg-purple-100 text-purple-600 px-2 py-1 rounded text-xs font-semibold">
                     Keşfet →
@@ -87,91 +95,85 @@ const Giyim = () => {
         </section>
 
         {/* Flash Sale Banner */}
-        <section className="mb-12">
-          <div className="bg-gradient-to-r from-red-500 to-pink-500 text-white rounded-lg p-6 shadow-lg">
-            <div className="flex items-center justify-between">
-              <div>
-                <h3 className="text-2xl font-bold mb-2">⚡ FLASH SALE</h3>
-                <p className="text-lg opacity-90 mb-3">Seçili ürünlerde %50'ye varan indirimler!</p>
-                <div className="flex items-center gap-4">
+        <section className="mb-8 sm:mb-12">
+          <div className="bg-gradient-to-r from-pink-500 to-rose-500 text-white rounded-lg p-4 sm:p-6 shadow-lg">
+            <div className="flex flex-col sm:flex-row items-center justify-between">
+              <div className="text-center sm:text-left mb-4 sm:mb-0">
+                <h3 className="text-xl sm:text-2xl font-bold mb-2">⚡ FLASH SALE</h3>
+                <p className="text-base sm:text-lg opacity-90 mb-3">Seçili ürünlerde %50'ye varan indirimler!</p>
+                <div className="flex flex-col sm:flex-row items-center gap-2 sm:gap-4">
                   <div className="bg-white bg-opacity-20 rounded-lg px-3 py-1">
                     <span className="text-sm font-semibold">⏰ 23:59:45</span>
                   </div>
                   <div className="bg-white bg-opacity-20 rounded-lg px-3 py-1">
-                    <span className="text-sm font-semibold">🔥 1,234 ürün</span>
+                    <span className="text-sm font-semibold">🔥 %50 İndirim</span>
                   </div>
                 </div>
               </div>
-              <div className="text-right">
-                <div className="text-6xl mb-2">🎉</div>
-                <p className="text-sm opacity-90">Sınırlı süre!</p>
-              </div>
+              <Link href="/giyim/indirim" className="bg-white text-pink-500 px-6 py-2 rounded-lg font-semibold hover:bg-gray-100 transition-colors">
+                İndirimleri Gör
+              </Link>
             </div>
           </div>
         </section>
 
         {/* Featured Products */}
         <section>
-          <div className="text-center mb-8">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">Öne Çıkan Ürünler</h2>
-            <p className="text-lg text-gray-600">En popüler ve trend ürünler</p>
+          <div className="text-center mb-6 sm:mb-8">
+            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-4">Öne Çıkan Ürünler</h2>
+            <p className="text-base sm:text-lg text-gray-600">En popüler ve trend ürünler</p>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
             {featuredProducts.map((product) => (
               <div key={product.id} className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-all">
-                <div className="p-6">
+                <div className="p-4 sm:p-6">
                   <div className="text-center mb-4">
-                    <div className="text-6xl mb-3">{product.image}</div>
+                    <div className="text-4xl sm:text-5xl mb-3">{product.image}</div>
+                    <h3 className="font-bold text-gray-900 mb-2 text-sm sm:text-base">{product.name}</h3>
+                    <p className="text-sm text-gray-600 mb-2">{product.brand}</p>
+                    <div className="flex items-center justify-center gap-1 mb-3">
+                      <span className="text-yellow-400">⭐</span>
+                      <span className="text-sm text-gray-600">{product.rating}</span>
+                      <span className="text-sm text-gray-500">({product.reviews})</span>
+                    </div>
+                  </div>
+                  
+                  <div className="flex items-center justify-between mb-4">
+                    <div>
+                      <span className="text-lg sm:text-xl font-bold text-gray-900">₺{product.price}</span>
+                      {product.originalPrice > product.price && (
+                        <span className="text-sm text-gray-500 line-through ml-2">₺{product.originalPrice}</span>
+                      )}
+                    </div>
                     {product.discount > 0 && (
-                      <div className="absolute top-2 right-2 bg-red-500 text-white text-xs px-2 py-1 rounded">
-                        -%{product.discount}
-                      </div>
-                    )}
-                    {!product.inStock && (
-                      <div className="absolute top-2 left-2 bg-gray-500 text-white text-xs px-2 py-1 rounded">
-                        Tükendi
-                      </div>
+                      <span className="bg-red-500 text-white text-xs px-2 py-1 rounded-full font-semibold">
+                        %{product.discount} İndirim
+                      </span>
                     )}
                   </div>
                   
-                  <div className="text-center">
-                    <h3 className="font-bold text-gray-900 mb-2 text-lg">{product.name}</h3>
-                    <p className="text-sm text-gray-600 mb-3">{product.brand}</p>
-                    
-                    <div className="flex items-center justify-center gap-2 mb-3">
-                      <div className="flex items-center">
-                        <span className="text-yellow-400">⭐</span>
-                        <span className="text-sm text-gray-600 ml-1">{product.rating}</span>
-                      </div>
-                      <span className="text-sm text-gray-400">({product.reviews})</span>
-                    </div>
-                    
-                    <div className="flex items-center justify-center gap-2 mb-4">
-                      {product.discount > 0 ? (
-                        <>
-                          <span className="text-2xl font-bold text-red-600">{product.price}₺</span>
-                          <span className="text-lg text-gray-400 line-through">{product.originalPrice}₺</span>
-                        </>
-                      ) : (
-                        <span className="text-2xl font-bold text-gray-900">{product.price}₺</span>
-                      )}
-                    </div>
-                    
-                    <div className="flex gap-2">
-                      <button
-                        onClick={() => addToCart(product)}
-                        className="flex-1 bg-purple-600 text-white py-2 px-4 rounded-lg hover:bg-purple-700 transition-colors text-sm font-semibold"
-                      >
-                        🛒 Sepete Ekle
-                      </button>
-                      <button
-                        onClick={() => addToWishlist(product)}
-                        className="bg-gray-100 text-gray-700 py-2 px-3 rounded-lg hover:bg-gray-200 transition-colors"
-                      >
-                        ❤️
-                      </button>
-                    </div>
+                  <div className="flex gap-2">
+                    <button
+                      onClick={() => addToCart(product)}
+                      className="flex-1 bg-purple-600 text-white py-2 px-4 rounded-lg hover:bg-purple-700 transition-colors text-sm font-medium"
+                    >
+                      🛒 Sepete Ekle
+                    </button>
+                    <button
+                      onClick={() => addToWishlist(product)}
+                      className="bg-gray-100 text-gray-700 py-2 px-3 rounded-lg hover:bg-gray-200 transition-colors"
+                    >
+                      ❤️
+                    </button>
                   </div>
+                  
+                  {!product.inStock && (
+                    <div className="mt-2 text-center">
+                      <span className="bg-gray-500 text-white text-xs px-2 py-1 rounded-full">
+                        Stokta Yok
+                      </span>
+                    </div>
+                  )}
                 </div>
               </div>
             ))}

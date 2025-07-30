@@ -78,15 +78,15 @@ const GlobalMenu = () => {
   return (
     <>
       {/* Modern Navigation Bar */}
-      <nav className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-200/50 shadow-lg">
+      <nav className="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-md border-b border-gray-200/50 shadow-lg">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             {/* Logo */}
             <Link href="/" className="flex items-center space-x-2 group">
-              <div className="w-10 h-10 bg-gradient-to-r from-blue-600 to-purple-600 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                <span className="text-white text-xl font-bold">N</span>
+              <div className="w-8 h-8 sm:w-10 sm:h-10 bg-gradient-to-r from-blue-600 to-purple-600 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                <span className="text-white text-lg sm:text-xl font-bold">N</span>
               </div>
-              <span className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+              <span className="text-lg sm:text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
                 NEOMEDYA
               </span>
             </Link>
@@ -105,9 +105,9 @@ const GlobalMenu = () => {
             </div>
 
             {/* Right Side Actions */}
-            <div className="flex items-center space-x-4">
-              {/* Search */}
-              <button className="p-2 text-gray-500 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-all duration-200">
+            <div className="flex items-center space-x-2 sm:space-x-4">
+              {/* Search - Hidden on mobile */}
+              <button className="hidden sm:block p-2 text-gray-500 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-all duration-200">
                 🔍
               </button>
 
@@ -131,9 +131,9 @@ const GlobalMenu = () => {
                 )}
               </Link>
 
-              {/* User Menu */}
+              {/* User Menu - Desktop */}
               {isLoggedIn ? (
-                <div className="relative">
+                <div className="hidden sm:block relative">
                   <button
                     onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
                     className="flex items-center space-x-2 p-2 text-gray-700 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-all duration-200"
@@ -141,7 +141,7 @@ const GlobalMenu = () => {
                     <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center">
                       <span className="text-white text-sm font-semibold">U</span>
                     </div>
-                    <span className="hidden sm:block font-medium">Kullanıcı</span>
+                    <span className="font-medium">Kullanıcı</span>
                     <span className="text-gray-400">▼</span>
                   </button>
 
@@ -185,7 +185,7 @@ const GlobalMenu = () => {
                   )}
                 </div>
               ) : (
-                <div className="flex items-center space-x-2">
+                <div className="hidden sm:flex items-center space-x-2">
                   <button
                     onClick={handleLogin}
                     className="px-4 py-2 text-gray-700 hover:text-blue-600 font-medium transition-colors duration-200"
@@ -205,27 +205,91 @@ const GlobalMenu = () => {
               <button
                 onClick={() => setIsMenuOpen(!isMenuOpen)}
                 className="md:hidden p-2 text-gray-500 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-all duration-200"
+                aria-label="Toggle menu"
               >
-                {isMenuOpen ? '✕' : '☰'}
+                <div className="w-6 h-6 flex flex-col justify-center items-center">
+                  <span className={`block w-5 h-0.5 bg-current transition-all duration-300 ${isMenuOpen ? 'rotate-45 translate-y-1' : '-translate-y-1'}`}></span>
+                  <span className={`block w-5 h-0.5 bg-current transition-all duration-300 ${isMenuOpen ? 'opacity-0' : 'opacity-100'}`}></span>
+                  <span className={`block w-5 h-0.5 bg-current transition-all duration-300 ${isMenuOpen ? '-rotate-45 -translate-y-1' : 'translate-y-1'}`}></span>
+                </div>
               </button>
             </div>
           </div>
 
           {/* Mobile Menu */}
-          {isMenuOpen && (
-            <div className="md:hidden bg-white/95 backdrop-blur-md border-t border-gray-200/50">
-              <div className="px-4 py-4 space-y-4">
-                <Link href="/ev" className="block text-gray-700 hover:text-blue-600 font-medium transition-colors duration-200">
-                  🏠 NEOMEDYA EV
-                </Link>
-                <Link href="/tech" className="block text-gray-700 hover:text-blue-600 font-medium transition-colors duration-200">
-                  💻 NEOMEDYA TECH
-                </Link>
-                <Link href="/giyim" className="block text-gray-700 hover:text-blue-600 font-medium transition-colors duration-200">
-                  👕 NEOMEDYA GİYİM
-                </Link>
+          <div className={`md:hidden transition-all duration-300 ease-in-out ${isMenuOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0 overflow-hidden'}`}>
+            <div className="bg-white/95 backdrop-blur-md border-t border-gray-200/50 py-4">
+              <div className="px-4 space-y-4">
+                {/* Platform Links */}
+                <div className="space-y-3">
+                  <Link 
+                    href="/ev" 
+                    className="block text-gray-700 hover:text-blue-600 font-medium transition-colors duration-200 py-2"
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    🏠 NEOMEDYA EV
+                  </Link>
+                  <Link 
+                    href="/tech" 
+                    className="block text-gray-700 hover:text-blue-600 font-medium transition-colors duration-200 py-2"
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    💻 NEOMEDYA TECH
+                  </Link>
+                  <Link 
+                    href="/giyim" 
+                    className="block text-gray-700 hover:text-blue-600 font-medium transition-colors duration-200 py-2"
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    👕 NEOMEDYA GİYİM
+                  </Link>
+                </div>
+
                 <hr className="border-gray-200" />
-                {!isLoggedIn && (
+
+                {/* User Actions */}
+                {isLoggedIn ? (
+                  <div className="space-y-3">
+                    <Link 
+                      href="/profil" 
+                      className="block text-gray-700 hover:text-blue-600 font-medium transition-colors duration-200 py-2"
+                      onClick={() => setIsMenuOpen(false)}
+                    >
+                      👤 Profil
+                    </Link>
+                    <Link 
+                      href="/siparislerim" 
+                      className="block text-gray-700 hover:text-blue-600 font-medium transition-colors duration-200 py-2"
+                      onClick={() => setIsMenuOpen(false)}
+                    >
+                      📦 Siparişlerim
+                    </Link>
+                    <Link 
+                      href="/favorilerim" 
+                      className="block text-gray-700 hover:text-blue-600 font-medium transition-colors duration-200 py-2"
+                      onClick={() => setIsMenuOpen(false)}
+                    >
+                      ❤️ Favorilerim
+                    </Link>
+                    <Link 
+                      href="/ayarlar" 
+                      className="block text-gray-700 hover:text-blue-600 font-medium transition-colors duration-200 py-2"
+                      onClick={() => setIsMenuOpen(false)}
+                    >
+                      ⚙️ Ayarlar
+                    </Link>
+                    <hr className="border-gray-200" />
+                    <button
+                      onClick={() => {
+                        handleLogout()
+                        setIsMenuOpen(false)
+                      }}
+                      className="w-full text-left text-red-600 hover:text-red-700 font-medium transition-colors duration-200 py-2"
+                    >
+                      🚪 Çıkış Yap
+                    </button>
+                  </div>
+                ) : (
                   <div className="flex space-x-2">
                     <button
                       onClick={handleLogin}
@@ -243,7 +307,7 @@ const GlobalMenu = () => {
                 )}
               </div>
             </div>
-          )}
+          </div>
         </div>
       </nav>
 
