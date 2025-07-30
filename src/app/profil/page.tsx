@@ -30,28 +30,47 @@ const Profil = () => {
   })
 
   useEffect(() => {
-    const savedUser = localStorage.getItem('neomedyauser')
-    if (savedUser) {
-      const userData = JSON.parse(savedUser)
-      setUser(userData)
-      setFormData({
-        name: userData.name || '',
-        email: userData.email || '',
-        phone: userData.phone || '',
-        address: userData.address || ''
-      })
+    const checkUserStatus = () => {
+      try {
+        const savedUser = localStorage.getItem('user')
+        if (savedUser) {
+          const userData = JSON.parse(savedUser)
+          setUser(userData)
+          setFormData({
+            name: userData.name || '',
+            email: userData.email || '',
+            phone: userData.phone || '',
+            address: userData.address || ''
+          })
+        }
+      } catch (error) {
+        console.log('localStorage okuma hatası:', error)
+      }
+    }
+
+    checkUserStatus()
+    
+    // localStorage değişikliklerini dinle
+    const handleStorageChange = () => {
+      checkUserStatus()
+    }
+
+    window.addEventListener('storage', handleStorageChange)
+    
+    return () => {
+      window.removeEventListener('storage', handleStorageChange)
     }
   }, [])
 
   const handleSave = () => {
     const updatedUser = { ...user, ...formData }
     setUser(updatedUser)
-    localStorage.setItem('neomedyauser', JSON.stringify(updatedUser))
+    localStorage.setItem('user', JSON.stringify(updatedUser))
     setIsEditing(false)
   }
 
   const handleLogout = () => {
-    localStorage.removeItem('neomedyauser')
+    localStorage.removeItem('user')
     window.location.href = '/'
   }
 

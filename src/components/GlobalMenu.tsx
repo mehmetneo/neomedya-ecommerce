@@ -7,6 +7,7 @@ const GlobalMenu = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false)
   const [isLoggedIn, setIsLoggedIn] = useState(false)
+  const [userData, setUserData] = useState<any>(null)
   const [cartCount, setCartCount] = useState(0)
   const [wishlistCount, setWishlistCount] = useState(0)
   const [showLoginModal, setShowLoginModal] = useState(false)
@@ -14,17 +15,48 @@ const GlobalMenu = () => {
   const [loginForm, setLoginForm] = useState({ email: '', password: '' })
   const [registerForm, setRegisterForm] = useState({ name: '', email: '', password: '', confirmPassword: '' })
 
-  useEffect(() => {
+  // Kullanıcı durumunu kontrol eden fonksiyon
+  const checkUserStatus = () => {
     try {
       const user = localStorage.getItem('user')
+      if (user) {
+        const userObj = JSON.parse(user)
+        setIsLoggedIn(true)
+        setUserData(userObj)
+      } else {
+        setIsLoggedIn(false)
+        setUserData(null)
+      }
+    } catch (error) {
+      console.log('localStorage okuma hatası:', error)
+      setIsLoggedIn(false)
+      setUserData(null)
+    }
+  }
+
+  useEffect(() => {
+    // Sayfa yüklendiğinde kullanıcı durumunu kontrol et
+    checkUserStatus()
+    
+    // localStorage değişikliklerini dinle
+    const handleStorageChange = () => {
+      checkUserStatus()
+    }
+
+    window.addEventListener('storage', handleStorageChange)
+    
+    // Cart ve wishlist sayılarını güncelle
+    try {
       const cart = JSON.parse(localStorage.getItem('cart') || '[]')
       const wishlist = JSON.parse(localStorage.getItem('wishlist') || '[]')
-      
-      setIsLoggedIn(!!user)
       setCartCount(cart.length)
       setWishlistCount(wishlist.length)
     } catch (error) {
       console.log('localStorage okuma hatası:', error)
+    }
+
+    return () => {
+      window.removeEventListener('storage', handleStorageChange)
     }
   }, [])
 
@@ -41,8 +73,10 @@ const GlobalMenu = () => {
   const handleLoginSubmit = (e: React.FormEvent) => {
     e.preventDefault()
     if (loginForm.email === 'demo@neomedy.com' && loginForm.password === 'demo123') {
-      localStorage.setItem('user', JSON.stringify({ name: 'Demo User', email: loginForm.email }))
+      const userData = { name: 'Demo User', email: loginForm.email }
+      localStorage.setItem('user', JSON.stringify(userData))
       setIsLoggedIn(true)
+      setUserData(userData)
       setShowLoginModal(false)
       setLoginForm({ email: '', password: '' })
       alert('Giriş başarılı!')
@@ -57,8 +91,10 @@ const GlobalMenu = () => {
       alert('Şifreler eşleşmiyor!')
       return
     }
-    localStorage.setItem('user', JSON.stringify({ name: registerForm.name, email: registerForm.email }))
+    const userData = { name: registerForm.name, email: registerForm.email }
+    localStorage.setItem('user', JSON.stringify(userData))
     setIsLoggedIn(true)
+    setUserData(userData)
     setShowRegisterModal(false)
     setRegisterForm({ name: '', email: '', password: '', confirmPassword: '' })
     alert('Kayıt başarılı!')
@@ -71,6 +107,7 @@ const GlobalMenu = () => {
       console.log('localStorage silme hatası:', error)
     }
     setIsLoggedIn(false)
+    setUserData(null)
     setIsUserMenuOpen(false)
     alert('Çıkış yapıldı!')
   }
@@ -139,9 +176,9 @@ const GlobalMenu = () => {
                     className="flex items-center space-x-2 p-2 text-gray-700 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-all duration-200"
                   >
                     <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center">
-                      <span className="text-white text-sm font-semibold">U</span>
+                      <span className="text-white text-sm font-semibold">{userData?.name?.charAt(0) || 'U'}</span>
                     </div>
-                    <span className="font-medium">Kullanıcı</span>
+                    <span className="font-medium">{userData?.name || 'Kullanıcı'}</span>
                     <span className="text-gray-400">▼</span>
                   </button>
 
@@ -151,11 +188,11 @@ const GlobalMenu = () => {
                       <div className="p-4 border-b border-gray-100">
                         <div className="flex items-center space-x-3">
                           <div className="w-10 h-10 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center">
-                            <span className="text-white font-semibold">U</span>
+                            <span className="text-white font-semibold">{userData?.name?.charAt(0) || 'U'}</span>
                           </div>
                           <div>
-                            <p className="font-semibold text-gray-900">Demo User</p>
-                            <p className="text-sm text-gray-500">demo@neomedy.com</p>
+                            <p className="font-semibold text-gray-900">{userData?.name || 'Demo User'}</p>
+                            <p className="text-sm text-gray-500">{userData?.email || 'demo@neomedy.com'}</p>
                           </div>
                         </div>
                       </div>
@@ -250,6 +287,15 @@ const GlobalMenu = () => {
                 {/* User Actions */}
                 {isLoggedIn ? (
                   <div className="space-y-3">
+                    <div className="flex items-center space-x-3 p-3 bg-gray-50 rounded-lg">
+                      <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center">
+                        <span className="text-white text-sm font-semibold">{userData?.name?.charAt(0) || 'U'}</span>
+                      </div>
+                      <div>
+                        <p className="font-semibold text-gray-900">{userData?.name || 'Demo User'}</p>
+                        <p className="text-sm text-gray-500">{userData?.email || 'demo@neomedy.com'}</p>
+                      </div>
+                    </div>
                     <Link 
                       href="/profil" 
                       className="block text-gray-700 hover:text-blue-600 font-medium transition-colors duration-200 py-2"
