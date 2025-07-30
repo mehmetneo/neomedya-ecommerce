@@ -120,7 +120,7 @@ const HomePage = () => {
             <div className="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105">
               <div className="p-6 sm:p-8">
                 <div className="text-center mb-6">
-                  <div className="w-16 h-16 sm:w-20 sm:h-20 bg-gradient-to-r from-green-500 to-blue-600 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                  <div className="w-16 h-16 sm:w-20 sm:h-20 bg-gradient-to-r from-emerald-500 to-blue-600 rounded-2xl flex items-center justify-center mx-auto mb-4">
                     <span className="text-2xl sm:text-3xl">🏠</span>
                   </div>
                   <h3 className="text-xl sm:text-2xl font-bold text-gray-900 mb-2">NEOMEDYA EV</h3>
@@ -129,22 +129,22 @@ const HomePage = () => {
                 
                 <div className="space-y-3 mb-6">
                   <div className="flex items-center text-sm">
-                    <span className="text-green-500 mr-2">✓</span>
+                    <span className="text-emerald-600 mr-2">✓</span>
                     Mobilya & Dekorasyon
                   </div>
                   <div className="flex items-center text-sm">
-                    <span className="text-green-500 mr-2">✓</span>
+                    <span className="text-emerald-600 mr-2">✓</span>
                     Aydınlatma Sistemleri
                   </div>
                   <div className="flex items-center text-sm">
-                    <span className="text-green-500 mr-2">✓</span>
+                    <span className="text-emerald-600 mr-2">✓</span>
                     Bahçe & Dış Mekan
                   </div>
                 </div>
                 
                 <Link 
                   href="/ev" 
-                  className="block w-full bg-gradient-to-r from-green-600 to-blue-600 text-white text-center py-3 rounded-xl font-semibold hover:from-green-700 hover:to-blue-700 transition-all duration-300"
+                  className="block w-full bg-gradient-to-r from-emerald-600 to-blue-600 text-white text-center py-3 rounded-xl font-semibold hover:from-emerald-700 hover:to-blue-700 transition-all duration-300"
                 >
                   Platformu İncele →
                 </Link>
@@ -155,7 +155,7 @@ const HomePage = () => {
             <div className="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105">
               <div className="p-6 sm:p-8">
                 <div className="text-center mb-6">
-                  <div className="w-16 h-16 sm:w-20 sm:h-20 bg-gradient-to-r from-blue-500 to-purple-600 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                  <div className="w-16 h-16 sm:w-20 sm:h-20 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-2xl flex items-center justify-center mx-auto mb-4">
                     <span className="text-2xl sm:text-3xl">💻</span>
                   </div>
                   <h3 className="text-xl sm:text-2xl font-bold text-gray-900 mb-2">NEOMEDYA TECH</h3>
@@ -164,22 +164,22 @@ const HomePage = () => {
                 
                 <div className="space-y-3 mb-6">
                   <div className="flex items-center text-sm">
-                    <span className="text-blue-500 mr-2">✓</span>
+                    <span className="text-blue-600 mr-2">✓</span>
                     Telefon & Tablet
                   </div>
                   <div className="flex items-center text-sm">
-                    <span className="text-blue-500 mr-2">✓</span>
+                    <span className="text-blue-600 mr-2">✓</span>
                     Bilgisayar & Laptop
                   </div>
                   <div className="flex items-center text-sm">
-                    <span className="text-blue-500 mr-2">✓</span>
+                    <span className="text-blue-600 mr-2">✓</span>
                     Aksesuar & Gaming
                   </div>
                 </div>
                 
                 <Link 
                   href="/tech" 
-                  className="block w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white text-center py-3 rounded-xl font-semibold hover:from-blue-700 hover:to-purple-700 transition-all duration-300"
+                  className="block w-full bg-gradient-to-r from-blue-600 to-indigo-600 text-white text-center py-3 rounded-xl font-semibold hover:from-blue-700 hover:to-indigo-700 transition-all duration-300"
                 >
                   Platformu İncele →
                 </Link>
@@ -190,7 +190,7 @@ const HomePage = () => {
             <div className="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105">
               <div className="p-6 sm:p-8">
                 <div className="text-center mb-6">
-                  <div className="w-16 h-16 sm:w-20 sm:h-20 bg-gradient-to-r from-purple-500 to-pink-600 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                  <div className="w-16 h-16 sm:w-20 sm:h-20 bg-gradient-to-r from-purple-600 to-pink-600 rounded-2xl flex items-center justify-center mx-auto mb-4">
                     <span className="text-2xl sm:text-3xl">👕</span>
                   </div>
                   <h3 className="text-xl sm:text-2xl font-bold text-gray-900 mb-2">NEOMEDYA GİYİM</h3>
@@ -199,15 +199,15 @@ const HomePage = () => {
                 
                 <div className="space-y-3 mb-6">
                   <div className="flex items-center text-sm">
-                    <span className="text-purple-500 mr-2">✓</span>
+                    <span className="text-purple-600 mr-2">✓</span>
                     Erkek & Kadın Giyim
                   </div>
                   <div className="flex items-center text-sm">
-                    <span className="text-purple-500 mr-2">✓</span>
+                    <span className="text-purple-600 mr-2">✓</span>
                     Ayakkabı & Aksesuar
                   </div>
                   <div className="flex items-center text-sm">
-                    <span className="text-purple-500 mr-2">✓</span>
+                    <span className="text-purple-600 mr-2">✓</span>
                     Spor & Outdoor
                   </div>
                 </div>
