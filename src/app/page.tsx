@@ -129,16 +129,16 @@ const HomePage = () => {
                 
                 <div className="space-y-3 mb-6">
                   <div className="flex items-center text-sm">
-                    <span className="text-green-800 mr-2 font-bold text-lg">✓</span>
-                    Mobilya & Dekorasyon
+                    <span className="text-green-800 mr-2 font-bold">✓</span>
+                    <span className="text-gray-700 font-medium">Mobilya & Dekorasyon</span>
                   </div>
                   <div className="flex items-center text-sm">
-                    <span className="text-green-800 mr-2 font-bold text-lg">✓</span>
-                    Aydınlatma Sistemleri
+                    <span className="text-green-800 mr-2 font-bold">✓</span>
+                    <span className="text-gray-700 font-medium">Aydınlatma Sistemleri</span>
                   </div>
                   <div className="flex items-center text-sm">
-                    <span className="text-green-800 mr-2 font-bold text-lg">✓</span>
-                    Bahçe & Dış Mekan
+                    <span className="text-green-800 mr-2 font-bold">✓</span>
+                    <span className="text-gray-700 font-medium">Bahçe & Dış Mekan</span>
                   </div>
                 </div>
                 
@@ -164,16 +164,16 @@ const HomePage = () => {
                 
                 <div className="space-y-3 mb-6">
                   <div className="flex items-center text-sm">
-                    <span className="text-blue-800 mr-2 font-bold text-lg">✓</span>
-                    Telefon & Tablet
+                    <span className="text-blue-800 mr-2 font-bold">✓</span>
+                    <span className="text-gray-700 font-medium">Telefon & Tablet</span>
                   </div>
                   <div className="flex items-center text-sm">
-                    <span className="text-blue-800 mr-2 font-bold text-lg">✓</span>
-                    Bilgisayar & Laptop
+                    <span className="text-blue-800 mr-2 font-bold">✓</span>
+                    <span className="text-gray-700 font-medium">Bilgisayar & Laptop</span>
                   </div>
                   <div className="flex items-center text-sm">
-                    <span className="text-blue-800 mr-2 font-bold text-lg">✓</span>
-                    Aksesuar & Gaming
+                    <span className="text-blue-800 mr-2 font-bold">✓</span>
+                    <span className="text-gray-700 font-medium">Aksesuar & Gaming</span>
                   </div>
                 </div>
                 
@@ -199,16 +199,16 @@ const HomePage = () => {
                 
                 <div className="space-y-3 mb-6">
                   <div className="flex items-center text-sm">
-                    <span className="text-purple-800 mr-2 font-bold text-lg">✓</span>
-                    Erkek & Kadın Giyim
+                    <span className="text-purple-800 mr-2 font-bold">✓</span>
+                    <span className="text-gray-700 font-medium">Erkek & Kadın Giyim</span>
                   </div>
                   <div className="flex items-center text-sm">
-                    <span className="text-purple-800 mr-2 font-bold text-lg">✓</span>
-                    Ayakkabı & Aksesuar
+                    <span className="text-purple-800 mr-2 font-bold">✓</span>
+                    <span className="text-gray-700 font-medium">Ayakkabı & Aksesuar</span>
                   </div>
                   <div className="flex items-center text-sm">
-                    <span className="text-purple-800 mr-2 font-bold text-lg">✓</span>
-                    Spor & Outdoor
+                    <span className="text-purple-800 mr-2 font-bold">✓</span>
+                    <span className="text-gray-700 font-medium">Spor & Outdoor</span>
                   </div>
                 </div>
                 
